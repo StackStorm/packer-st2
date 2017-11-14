@@ -1,0 +1,6 @@
+output-*
+packer_cache/
+*.swp
+
+.DS_Store
+builds/*.box
