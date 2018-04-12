@@ -1,6 +1,6 @@
 {
   "variables": {
-    "vm_name": "stackstorm",
+    "vm_name": "st2",
     "vm_version": "2.5.0",
     "vm_description": "Box with StackStorm (aka 'IFTTT for Ops') event-driven automation platform: auto-remediation, security responses, facilitated troubleshooting, complex deployments, ChatOps and more. \n* https://stackstorm.com/ \n* Documentation: https://docs.stackstorm.com/ \n* Enterprise: https://stackstorm.com/#product"
   },
