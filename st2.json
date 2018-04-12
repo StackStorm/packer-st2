@@ -7,8 +7,10 @@
   "provisioners": [
     {
       "type": "shell",
-      "execute_command": "echo 'ubuntu' | {{.Vars}} sudo -S -E bash -e '{{.Path}}'",
-      "script": "scripts/prepare.sh"
+      "execute_command": "{{.Vars}} sudo -S -E bash -eu '{{.Path}}'",
+      "scripts": [
+        "scripts/pre_cleanup.sh"
+      ]
     },
     {
       "type": "shell",
@@ -16,8 +18,10 @@
     },
     {
       "type": "shell",
-      "execute_command": "echo 'ubuntu' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
-      "script": "scripts/cleanup.sh"
+      "execute_command": "{{.Vars}} sudo -S -E bash -eu '{{.Path}}'",
+      "scripts": [
+        "scripts/post_cleanup.sh"
+      ]
     }
   ],
   "builders": [
