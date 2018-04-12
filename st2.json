@@ -1,6 +1,6 @@
 {
   "variables": {
-    "st2_version": "2.5.0",
+    "st2_version": "2.7.0",
     "st2_user": "st2admin",
     "st2_password": "Ch@ngeMe",
     "vm_name": "st2",
