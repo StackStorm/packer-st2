@@ -1,7 +1,9 @@
 {
   "variables": {
+    "st2_version": "2.5.0",
+    "st2_user": "st2admin",
+    "st2_password": "Ch@ngeMe",
     "vm_name": "st2",
-    "vm_version": "2.5.0",
     "vm_description": "Box with StackStorm (aka 'IFTTT for Ops') event-driven automation platform: auto-remediation, security responses, facilitated troubleshooting, complex deployments, ChatOps and more. \n* https://stackstorm.com/ \n* Documentation: https://docs.stackstorm.com/ \n* Enterprise: https://stackstorm.com/#product"
   },
   "provisioners": [
@@ -14,7 +16,9 @@
     },
     {
       "type": "shell",
-      "inline": "curl -sSL https://stackstorm.com/packages/install.sh | bash -e -s -- --version={{user `vm_version`}} --user=st2admin --password='Ch@ngeMe'"
+      "inline": [
+        "curl --retry 3 -fsSL https://stackstorm.com/packages/install.sh | bash -seu -- --user={{ user `st2_user` }} --password={{ user `st2_password` }} --version={{ user `st2_version` }}"
+      ]
     },
     {
       "type": "shell",
@@ -74,7 +78,7 @@
       "vm_name": "{{user `vm_name`}}",
       "export_opts": [
         "--vsys", "0",
-        "--version", "{{user `vm_version`}}",
+        "--version", "{{user `st2_version`}}",
         "--product", "StackStorm",
         "--producturl", "https://stackstorm.com/",
         "--description", "{{user `vm_description`}}"
@@ -97,7 +101,7 @@
   ],
   "post-processors": [
     {
-      "output": "builds/{{user `vm_name`}}-v{{user `vm_version`}}_{{timestamp}}.box",
+      "output": "builds/{{user `vm_name`}}-v{{user `st2_version`}}_{{timestamp}}.box",
       "type": "vagrant"
     }
   ]
