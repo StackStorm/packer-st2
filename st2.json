@@ -51,7 +51,7 @@
         " keyboard-configuration/variant=USA<wait>",
         " locale=en_US.UTF-8<wait>",
         " netcfg/get_domain=vm<wait>",
-        " netcfg/get_hostname=bwc<wait>",
+        " netcfg/get_hostname=stackstorm<wait>",
         " grub-installer/bootdev=/dev/sda<wait>",
         " noapic<wait>",
         " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg",
@@ -59,7 +59,7 @@
         "<enter><wait>"
       ],
       "boot_wait": "10s",
-      "disk_size": 81920,
+      "disk_size": 40960,
       "guest_os_type": "Ubuntu_64",
       "headless": true,
       "http_directory": "http",
@@ -77,6 +77,7 @@
       "virtualbox_version_file": ".vbox_version",
       "vm_name": "{{user `vm_name`}}",
       "export_opts": [
+        "--ovf10",
         "--vsys", "0",
         "--version", "{{user `st2_version`}}",
         "--product", "StackStorm",
@@ -84,18 +85,8 @@
         "--description", "{{user `vm_description`}}"
       ],
       "vboxmanage": [
-        [
-          "modifyvm",
-          "{{.Name}}",
-          "--memory",
-          "4096"
-        ],
-        [
-          "modifyvm",
-          "{{.Name}}",
-          "--cpus",
-          "2"
-        ]
+        [ "modifyvm", "{{.Name}}", "--memory", "2048" ],
+        [ "modifyvm", "{{.Name}}", "--cpus", "2" ]
       ]
     }
   ],
