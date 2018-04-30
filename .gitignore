@@ -1,6 +1,7 @@
 output-*
 packer_cache/
 *.swp
+tmp/*
 
 .DS_Store
 builds/*.box

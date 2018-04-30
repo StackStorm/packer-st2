@@ -1,23 +1,31 @@
 {
   "variables": {
-    "vm_name": "stackstorm",
-    "vm_version": "2.5.0",
+    "st2_version": "2.7.1",
+    "st2_user": "st2admin",
+    "st2_password": "Ch@ngeMe",
+    "vm_name": "st2",
     "vm_description": "Box with StackStorm (aka 'IFTTT for Ops') event-driven automation platform: auto-remediation, security responses, facilitated troubleshooting, complex deployments, ChatOps and more. \n* https://stackstorm.com/ \n* Documentation: https://docs.stackstorm.com/ \n* Enterprise: https://stackstorm.com/#product"
   },
   "provisioners": [
     {
       "type": "shell",
-      "execute_command": "echo 'ubuntu' | {{.Vars}} sudo -S -E bash -e '{{.Path}}'",
-      "script": "scripts/prepare.sh"
+      "execute_command": "{{.Vars}} sudo -S -E bash -eu '{{.Path}}'",
+      "scripts": [
+        "scripts/pre_cleanup.sh"
+      ]
     },
     {
       "type": "shell",
-      "inline": "curl -sSL https://stackstorm.com/packages/install.sh | bash -e -s -- --version={{user `vm_version`}} --user=st2admin --password='Ch@ngeMe'"
+      "inline": [
+        "curl --retry 3 -fsSL https://stackstorm.com/packages/install.sh | bash -seu -- --user={{ user `st2_user` }} --password={{ user `st2_password` }} --version={{ user `st2_version` }}"
+      ]
     },
     {
       "type": "shell",
-      "execute_command": "echo 'ubuntu' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
-      "script": "scripts/cleanup.sh"
+      "execute_command": "{{.Vars}} sudo -S -E bash -eu '{{.Path}}'",
+      "scripts": [
+        "scripts/post_cleanup.sh"
+      ]
     }
   ],
   "builders": [
@@ -43,7 +51,7 @@
         " keyboard-configuration/variant=USA<wait>",
         " locale=en_US.UTF-8<wait>",
         " netcfg/get_domain=vm<wait>",
-        " netcfg/get_hostname=bwc<wait>",
+        " netcfg/get_hostname=stackstorm<wait>",
         " grub-installer/bootdev=/dev/sda<wait>",
         " noapic<wait>",
         " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg",
@@ -51,49 +59,40 @@
         "<enter><wait>"
       ],
       "boot_wait": "10s",
-      "disk_size": 81920,
+      "disk_size": 40960,
       "guest_os_type": "Ubuntu_64",
       "headless": true,
       "http_directory": "http",
       "iso_urls": [
-        "http://releases.ubuntu.com/16.04.2/ubuntu-16.04.2-server-amd64.iso"
+        "http://releases.ubuntu.com/16.04/ubuntu-16.04.4-server-amd64.iso"
       ],
       "iso_checksum_type": "sha256",
-      "iso_checksum": "737ae7041212c628de5751d15c3016058b0e833fdc32e7420209b76ca3d0a535",
-      "ssh_username": "ubuntu",
-      "ssh_password": "ubuntu",
+      "iso_checksum": "0a03608988cfd2e50567990dc8be96fb3c501e198e2e6efcb846d89efc7b89f2",
+      "ssh_username": "vagrant",
+      "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_wait_timeout": "10000s",
-      "shutdown_command": "echo 'ubuntu'|sudo -S shutdown -P now",
+      "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "virtualbox_version_file": ".vbox_version",
       "vm_name": "{{user `vm_name`}}",
       "export_opts": [
+        "--ovf10",
         "--vsys", "0",
-        "--version", "{{user `vm_version`}}",
+        "--version", "{{user `st2_version`}}",
         "--product", "StackStorm",
         "--producturl", "https://stackstorm.com/",
         "--description", "{{user `vm_description`}}"
       ],
       "vboxmanage": [
-        [
-          "modifyvm",
-          "{{.Name}}",
-          "--memory",
-          "4096"
-        ],
-        [
-          "modifyvm",
-          "{{.Name}}",
-          "--cpus",
-          "2"
-        ]
+        [ "modifyvm", "{{.Name}}", "--memory", "2048" ],
+        [ "modifyvm", "{{.Name}}", "--cpus", "2" ]
       ]
     }
   ],
   "post-processors": [
     {
-      "output": "builds/{{user `vm_name`}}-v{{user `vm_version`}}_{{timestamp}}.box",
+      "output": "builds/{{user `vm_name`}}-v{{user `st2_version`}}_{{timestamp}}.box",
       "type": "vagrant"
     }
   ]
