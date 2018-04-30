@@ -11,7 +11,7 @@ UNAME := $(shell uname | tr '[:upper:]' '[:lower:]')
 install-packer: tmp/packer_$(PACKER_VERSION).zip
 	mkdir -p ~/bin
 	unzip -o -d ~/bin $<
-	chmod +x ~/bin/packer
+	chmod +x $(PACKER)
 	@echo Packer $(PACKER_VERSION) was successfully installed!
 
 # Install packer only if it doesn't exist
