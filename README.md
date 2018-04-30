@@ -7,7 +7,6 @@ Packer templates for building Vagrant box with [StackStorm](https://github.com/s
 The following tools are required for the build process:
 - Virtualbox - https://www.virtualbox.org/wiki/Downloads
 - Packer - https://www.packer.io/downloads.html (`make install-packer`)
-- VMware ovftool - https://www.vmware.com/support/developer/ovf/
 
 
 ### Build Steps
