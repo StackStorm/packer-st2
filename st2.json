@@ -1,6 +1,7 @@
 {
   "variables": {
     "st2_version": "2.7.1",
+    "box_version": "{{isotime \"20060102\"}}",
     "st2_user": "st2admin",
     "st2_password": "Ch@ngeMe",
     "vm_name": "st2",
@@ -93,7 +94,7 @@
   ],
   "post-processors": [
     {
-      "output": "builds/{{user `vm_name`}}-v{{user `st2_version`}}_{{timestamp}}.box",
+      "output": "builds/{{user `vm_name`}}_v{{user `st2_version`}}-{{user `box_version`}}.box",
       "type": "vagrant"
     }
   ]
