@@ -2,10 +2,6 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-#   config.ssh.insert_key = false
-  # TODO: Remove, once Hashicorp Vagrant SSH key is added
-  config.ssh.username = 'vagrant'
-  config.ssh.password = 'vagrant'
   config.vm.synced_folder '.', '/vagrant'
 
   # VirtualBox.
