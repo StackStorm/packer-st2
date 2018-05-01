@@ -12,8 +12,8 @@ Vagrant.configure("2") do |config|
   # For a complete reference, please see the online documentation at
   # https://docs.vagrantup.com.
 
-  config.vm.name = "stackstorm"
   config.vm.box = "stackstorm/st2"
+  config.vm.hostname = "stackstorm"
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
@@ -41,17 +41,12 @@ Vagrant.configure("2") do |config|
   # argument is a set of non-required options.
   # config.vm.synced_folder "../data", "/vagrant_data"
 
-  # VirtualBox.
-  # `vagrant up virtualbox --provider=virtualbox`
-  config.vm.define "virtualbox" do |virtualbox|
-    virtualbox.vm.hostname = "stackstorm"
-
-    config.vm.provider :virtualbox do |vb|
-      vb.name = "stackstorm"
-      vb.gui = false
-      vb.memory = 2048
-      vb.cpus = 2
-    end
-    config.vm.provision "shell", inline: "st2 --version"
+  config.vm.provider :virtualbox do |vb|
+    vb.name = "stackstorm"
+    vb.gui = false
+    vb.memory = 2048
+    vb.cpus = 2
   end
+
+  config.vm.provision "shell", inline: "st2 --version"
 end
