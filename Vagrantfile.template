@@ -1,7 +1,9 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-# Custom Vagrantfile shipped with the box.
+# Custom StackStorm Vagrantfile shipped with the box.
+# User's Vagrantfile will be merged with this config, giving priority to user's settings.
+#
 # For more info about the original Vagrantfile load-order-merge mechanism see:
 # - https://groups.google.com/forum/#!topic/packer-tool/Iu1jSRgbWOk
 # - https://www.vagrantup.com/docs/cli/package.html
