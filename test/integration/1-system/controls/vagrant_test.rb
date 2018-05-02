@@ -40,8 +40,7 @@ control 'vagrant' do
   end
 
   # Check if fix for Vagrant provision "stdin/tty" is in place
-# TODO: Uncomment after including the respective change
-#   describe file('/root/.profile') do
-#     its('content') { should include 'test -t 0 && mesg n' }
-#   end
+  describe file('/root/.profile') do
+    its('content') { should include 'test -t 0 && mesg n' }
+  end
 end
