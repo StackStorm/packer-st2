@@ -42,7 +42,7 @@ fi
 
 # Zero out the rest of the free space using dd, then delete the written file.
 # This will free up VM disk space before packing
-dd if=/dev/zero of=/EMPTY bs=1M status=noxfer > /dev/null || echo "dd exit code $? is suppressed";
+dd if=/dev/zero of=/EMPTY bs=1M > /dev/null || echo "dd exit code $? is suppressed";
 # Sleeping a bit before rm is required here :/
 sleep 5
 rm -f /EMPTY
