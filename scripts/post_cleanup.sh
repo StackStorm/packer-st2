@@ -1,6 +1,6 @@
 #!/bin/bash -eux
 
-echo -e '\033[1mRunning cleanup scripts to reduce the resulting box size ...\033[0m'
+echo -e '\033[33mRunning cleanup scripts to reduce the resulting box size ...\033[0m'
 
 
 # Stop services before the final cleanup

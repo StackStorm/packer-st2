@@ -1,6 +1,6 @@
 #!/bin/bash -eux
 
-echo -e '\033[1mRunning cleanup scripts before installing StackStorm ...\033[0m'
+echo -e '\033[33mRunning cleanup scripts before installing StackStorm ...\033[0m'
 
 # Delete all Linux headers
 dpkg --list \

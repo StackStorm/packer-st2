@@ -4,7 +4,7 @@
 # https://www.inspec.io/
 
 if ! command -v inspec > /dev/null; then
-  echo -e '\033[1mInstalling InSpec Framework ...\033[0m'
+  echo -e '\033[33mInstalling InSpec Framework ...\033[0m'
   # https://downloads.chef.io/inspec#ubuntu
   TEMP_DEB="$(mktemp)"
   wget -qO "$TEMP_DEB" 'https://packages.chef.io/files/stable/inspec/2.1.59/ubuntu/16.04/inspec_2.1.59-1_amd64.deb'
@@ -12,7 +12,7 @@ if ! command -v inspec > /dev/null; then
   rm -f "$TEMP_DEB"
 fi
 
-echo -e '\033[1mRunning InSpec Integration Tests ...\033[0m'
+echo -e '\033[33mRunning InSpec Integration Tests ...\033[0m'
 cd /opt/ova/test/integration/
 for dir in */; do
   dir=$(basename $dir)
