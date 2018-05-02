@@ -24,7 +24,7 @@ find /var/cache -type f -exec rm -rf {} \;
 
 # Clean any logs that have built up during the install
 find /var/log/ -type f | while read -r f; do
-  dd if=/dev/null of="${f}"
+  dd if=/dev/null of="${f}" status=none
 done
 
 # Remove st2actionrunner.xxx.log files with PID in name
@@ -36,7 +36,7 @@ SWAP_UUID="$(/sbin/blkid -o value -l -s UUID -t TYPE=swap)"
 if [[ "${SWAP_UUID}" ]]; then
   SWAP_PART="$(readlink -f "/dev/disk/by-uuid/${SWAP_UUID}")"
   /sbin/swapoff "${SWAP_PART}"
-  dd if=/dev/zero of="${SWAP_PART}" bs=1M status=noxfer || echo "dd exit $? suppressed"
+  dd if=/dev/zero of="${SWAP_PART}" bs=1M || echo "dd exit $? suppressed"
   /sbin/mkswap -U "${SWAP_UUID}" "${SWAP_PART}"
 fi
 
