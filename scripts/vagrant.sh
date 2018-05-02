@@ -4,7 +4,7 @@
 ## This way Vagrant can auth via known SSH key + user combination
 ###
 
-echo 'Authorizing Vagrant SSH key-based access ...'
+echo -e '\033[1mAuthorizing Vagrant SSH key-based access ...\033[0m'
 
 mkdir -pm 700 /home/vagrant/.ssh
 curl --retry 3 --insecure --location "https://raw.github.com/mitchellh/vagrant/master/keys/vagrant.pub" > /home/vagrant/.ssh/authorized_keys

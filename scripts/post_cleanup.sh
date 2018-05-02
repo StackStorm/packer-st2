@@ -1,7 +1,7 @@
 #!/bin/bash -eux
-###
-## Cleanup scripts executed after installing StackStorm as a last step
-###
+
+echo -e '\033[1mRunning cleanup scripts to reduce the resulting box size ...\033[0m'
+
 
 # Stop services before the final cleanup
 st2ctl stop

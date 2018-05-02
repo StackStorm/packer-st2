@@ -1,7 +1,6 @@
 #!/bin/bash -eux
-###
-## Cleanup scripts executed before installing StackStorm
-###
+
+echo -e '\033[1mRunning cleanup scripts before installing StackStorm ...\033[0m'
 
 # Delete all Linux headers
 dpkg --list \
