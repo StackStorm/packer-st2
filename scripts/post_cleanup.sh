@@ -1,7 +1,7 @@
 #!/bin/bash -eux
-###
-## Cleanup scripts executed after installing StackStorm as a last step
-###
+
+echo -e '\033[33mRunning cleanup scripts to reduce the resulting box size ...\033[0m'
+
 
 # Stop services before the final cleanup
 st2ctl stop
@@ -24,7 +24,7 @@ find /var/cache -type f -exec rm -rf {} \;
 
 # Clean any logs that have built up during the install
 find /var/log/ -type f | while read -r f; do
-  dd if=/dev/null of="${f}"
+  dd if=/dev/null of="${f}" status=none
 done
 
 # Remove st2actionrunner.xxx.log files with PID in name

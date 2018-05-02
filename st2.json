@@ -10,6 +10,18 @@
   "provisioners": [
     {
       "type": "shell",
+      "inline": [
+        "sudo mkdir -p /opt/ova",
+        "sudo chown -R vagrant:vagrant /opt/ova"
+      ]
+    },
+    {
+      "type": "file",
+      "source": "opt/",
+      "destination": "/opt/ova/"
+    },
+    {
+      "type": "shell",
       "execute_command": "{{.Vars}} sudo -S -E bash -eu '{{.Path}}'",
       "scripts": [
         "scripts/pre_cleanup.sh",
@@ -19,13 +31,24 @@
     {
       "type": "shell",
       "inline": [
+        "echo '\\033[33mInstalling StackStorm v{{ user `st2_version` }} ...\\033[0m'",
         "curl --retry 3 -fsSL https://stackstorm.com/packages/install.sh | bash -seu -- --user={{ user `st2_user` }} --password={{ user `st2_password` }} --version={{ user `st2_version` }}"
       ]
     },
     {
       "type": "shell",
+      "inline": [
+        "echo '\\033[33mRebooting the VM ...\\033[0m'",
+        "sudo reboot"
+      ],
+      "expect_disconnect": true
+    },
+    {
+      "pause_before": "1m",
+      "type": "shell",
       "execute_command": "{{.Vars}} sudo -S -E bash -eu '{{.Path}}'",
       "scripts": [
+        "scripts/test.sh",
         "scripts/post_cleanup.sh"
       ]
     }
