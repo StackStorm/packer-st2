@@ -18,7 +18,7 @@ install & configure StackStorm and finally export both the Vagrant box and .OVA 
 
 ## Testing
 [`/test`](/test) directory contains Integration tests, powered by [InSpec.io](https://www.inspec.io/) Infrastructure Testing framework.
-Tests are performed in the end of the Packer build pipeline after entire installation and configuration. They ensure that custom OS Linux-level modifications are in place and StackStorm was really deployed, works correctly and alive with other services it relies on like RabbitMQ, PostgreSQL, MongoDB.
+Tests are performed at the end of the Packer build pipeline after entire installation and configuration. They ensure that custom OS Linux-level modifications are in place and StackStorm was really deployed, works correctly and alive with other services it relies on like RabbitMQ, PostgreSQL, MongoDB.
 To make testing close to a real-world scenario, an additional VM reboot step in the build pipeline is performed before running the actual integration tests.
 
 > Please don't forget to include respective tests for every new critical feature of the system!<br>
