@@ -94,8 +94,9 @@
   ],
   "post-processors": [
     {
-      "output": "builds/{{user `vm_name`}}_v{{user `st2_version`}}-{{user `box_version`}}.box",
       "type": "vagrant",
+      "vagrantfile_template": "Vagrantfile.template",
+      "output": "builds/{{user `vm_name`}}_v{{user `st2_version`}}-{{user `box_version`}}.box",
       "keep_input_artifact": true
     },
     {
