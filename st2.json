@@ -1,6 +1,7 @@
 {
   "variables": {
     "st2_version": "2.7.1",
+    "box_version": "{{isotime \"20060102\"}}",
     "st2_user": "st2admin",
     "st2_password": "Ch@ngeMe",
     "vm_name": "st2",
@@ -93,9 +94,17 @@
   ],
   "post-processors": [
     {
-      "output": "builds/{{user `vm_name`}}-v{{user `st2_version`}}_{{timestamp}}.box",
       "type": "vagrant",
-      "vagrantfile_template": "Vagrantfile.template"
+      "vagrantfile_template": "Vagrantfile.template",
+      "output": "builds/{{user `vm_name`}}_v{{user `st2_version`}}-{{user `box_version`}}.box",
+      "keep_input_artifact": true
+    },
+    {
+      "type": "shell-local",
+      "inline": [
+        "mv output-virtualbox-iso/{{user `vm_name`}}.ova builds/{{user `vm_name`}}_v{{user `st2_version`}}-{{user `box_version`}}.ova",
+        "rm -rf output-virtualbox-iso/"
+      ]
     }
   ]
 }
