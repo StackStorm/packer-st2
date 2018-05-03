@@ -1,0 +1,48 @@
+#!/usr/bin/env python
+
+# To prevent runaway costs due to servers that outlive the CI workflow,
+# unlock and destroy packet.net servers created more than an hour ago.
+
+# This script requires the following environment variables to be defined -
+#  - PACKET_API_TOKEN:  Token used to access packet.net services.
+#  - PACKET_PROJECT_ID: ID of the project where the server exists.
+
+import os
+import packet
+import sys
+from datetime import datetime
+from dateutil import parser
+from dateutil.tz import tzutc
+from dateutil.relativedelta import relativedelta
+
+
+# Return the number of hours since start
+def time_since(start):
+    start = parser.parse(start)
+    now = datetime.now(tzutc())
+    return relativedelta(now, start).hours
+
+
+env = {}
+missing_var = False
+for name in ['PACKET_API_TOKEN', 'PACKET_PROJECT_ID']:
+    env[name] = os.environ.get(name)
+    if not env[name]:
+        sys.stderr.write(name + " environment variable is required\n")
+        missing_var = True
+
+if missing_var:
+    sys.exit(1)
+
+manager = packet.Manager(auth_token=env['PACKET_API_TOKEN'])
+devices = manager.list_devices(env['PACKET_PROJECT_ID'])
+
+for device in devices:
+    # Unlock and destroy servers created more than an hour ago
+    # TODO: Consider making the time configurable
+    if time_since(device.created_at) > 0:
+        print("# Unlocking and Destroying device: '" + device.id
+              + "' created at '" + device.created_at + "'")
+        device.locked = False
+        device.update()
+        device.delete()
