@@ -25,7 +25,8 @@
       "execute_command": "{{.Vars}} sudo -S -E bash -eu '{{.Path}}'",
       "scripts": [
         "scripts/pre_cleanup.sh",
-        "scripts/vagrant.sh"
+        "scripts/vagrant.sh",
+        "scripts/welcome.sh"
       ]
     },
     {
