@@ -7,7 +7,7 @@
 S3_URI='https://s3-us-west-2.amazonaws.com/bwc-installer/ova-dependencies'
 
 # Install packer
-PACKER_VER='1.2.3'
+PACKER_VER='1.2.1'
 
 PACKER_ZIP="packer_${PACKER_VER}_linux_amd64.zip"
 PACKER_URI="${S3_URI}/${PACKER_ZIP}"
