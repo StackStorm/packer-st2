@@ -4,23 +4,18 @@
 # TODO: See "Codify the ova build Infrastructure #8": https://github.com/StackStorm/ova/issues/8
 ###### PROVISION SERVER
 
-S3_URI='https://s3-us-west-2.amazonaws.com/bwc-installer/ova-dependencies'
-
 # Install packer
-PACKER_VER='1.2.1'
+PACKER_VERSION='1.2.3'
 
-PACKER_ZIP="packer_${PACKER_VER}_linux_amd64.zip"
-PACKER_URI="${S3_URI}/${PACKER_ZIP}"
+PACKER_ZIP="packer_${PACKER_VERSION}_linux_amd64.zip"
+PACKER_URI="https://releases.hashicorp.com/packer/${PACKER_VERSION}/${PACKER_ZIP}"
 
-if [ ! -x /usr/local/bin/packer ]; then
-  sudo wget -O ${PACKER_ZIP} ${PACKER_URI}
-  sudo apt-get install -y unzip
-  unzip -d /usr/local/bin ${PACKER_ZIP}
-fi
+sudo wget -O ${PACKER_ZIP} ${PACKER_URI}
+sudo apt-get install -y unzip
+unzip -d /usr/local/bin ${PACKER_ZIP}
+rm -f ${PACKER_ZIP}
 
-if [ -e ${PACKER_ZIP} ]; then
-  rm -f ${PACKER_ZIP}
-fi
+S3_URI='https://s3-us-west-2.amazonaws.com/bwc-installer/ova-dependencies'
 
 # Install ovftool
 LIB='/usr/lib'
@@ -45,5 +40,3 @@ if [ ! -e /sbin/vboxconfig ]; then
   sudo apt-get install -y linux-headers-generic linux-headers-4.4.0-112-generic
   /sbin/vboxconfig
 fi
-
-###### DEPLOY IMAGE AS CIRCLECI ARTIFACT
