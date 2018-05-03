@@ -1,32 +1,13 @@
-PACKER ?= ~/bin/packer
-PACKER_VERSION := 1.2.3
-GIT ?= git
-CURL ?= curl
-SHELL := /bin/bash
-UNAME := $(shell uname | tr '[:upper:]' '[:lower:]')
+PACKER ?= packer
 
-
-.PHONY: install-packer packer-lint build clean
-
-install-packer: tmp/packer_$(PACKER_VERSION).zip
-	mkdir -p ~/bin
-	unzip -o -d ~/bin $<
-	chmod +x $(PACKER)
-	@echo Packer $(PACKER_VERSION) was successfully installed!
-
-# Install packer only if it doesn't exist
-$(PACKER):
-	@$(MAKE) install-packer
-
-tmp/packer_$(PACKER_VERSION).zip:
-	curl -fsSLo $@ 'https://releases.hashicorp.com/packer/$(PACKER_VERSION)/packer_$(PACKER_VERSION)_$(UNAME)_amd64.zip'
-	@echo Downloaded new Packer version: $(PACKER_VERSION)!
-
-packer-lint: $(PACKER)
+.PHONY: packer-lint
+packer-lint:
 	$(PACKER) validate st2.json
 
-build: $(PACKER)
+.PHONY: build
+build:
 	$(PACKER) build st2.json
 
-clean:
-	rm -rf tmp/*
+.PHONY: debug-build
+debug-build:
+	$(PACKER) build --on-error=ask st2.json
