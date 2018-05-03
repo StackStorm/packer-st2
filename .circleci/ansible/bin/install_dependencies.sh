@@ -6,6 +6,22 @@
 
 S3_URI='https://s3-us-west-2.amazonaws.com/bwc-installer/ova-dependencies'
 
+# Install packer
+PACKER_VER='1.2.3'
+
+PACKER_ZIP="packer_${PACKER_VER}_linux_amd64.zip"
+PACKER_URI="${S3_URI}/${PACKER_ZIP}"
+
+if [ ! -x /usr/local/bin/packer ]; then
+  sudo wget -O ${PACKER_ZIP} ${PACKER_URI}
+  sudo apt-get install -y unzip
+  unzip -d /usr/local/bin ${PACKER_ZIP}
+fi
+
+if [ -e ${PACKER_ZIP} ]; then
+  rm -f ${PACKER_ZIP}
+fi
+
 # Install ovftool
 LIB='/usr/lib'
 OVFTOOL_TGZ='vmware-ovftool.tgz'
