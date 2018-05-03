@@ -203,5 +203,3 @@ experimental:
     branches:
       only:
         - master
-        - XMC/master
-        - AS/master
