@@ -1,7 +1,6 @@
 ## Required ENV variables in CircleCI account:
 # PACKET_API_TOKEN
 # PACKET_PROJECT_ID
-# PACKET_SSH_KEY_FINGERPRINT
 # PACKET_SSH_PUB_KEY
 
 # Default YAML anchor, re-used in all CircleCI jobs
