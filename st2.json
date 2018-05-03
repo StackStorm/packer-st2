@@ -5,7 +5,7 @@
     "st2_user": "st2admin",
     "st2_password": "Ch@ngeMe",
     "vm_name": "st2",
-    "vm_description": "Box with StackStorm (aka 'IFTTT for Ops') event-driven automation platform: auto-remediation, security responses, facilitated troubleshooting, complex deployments, ChatOps and more. \n* https://stackstorm.com/ \n* Documentation: https://docs.stackstorm.com/ \n* Enterprise: https://stackstorm.com/#product"
+    "vm_description": "Box with StackStorm (aka 'IFTTT for Ops') event-driven automation platform: auto-remediation, security responses, facilitated troubleshooting, complex deployments, ChatOps and more. \n* https://stackstorm.com/ \n* Documentation: https://docs.stackstorm.com/ \n* Community: https://stackstorm.com/community-signup \n* Forum: https://forum.stackstorm.com/ \n* Enterprise: https://stackstorm.com/#product"
   },
   "provisioners": [
     {
