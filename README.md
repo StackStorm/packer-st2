@@ -26,8 +26,8 @@ To make testing close to a real-world scenario, an additional VM reboot step in 
 
 ### `st2-integration-tests`
 From a user's standpoint, for easier StackStorm troubleshooting there is an `st2-integration-tests` executable shipped in sbin/PATH.<br>
-Sometimes StackStorm is not running properly by some reason.
-Finding an answer is a responsibility of `st2-integration-tests` which will run StackStorm InSpec Tests and report back with more detailed info.
+Sometimes StackStorm does not run properly for some reason.
+Discovering why is the responsibility of `st2-integration-tests` which will run StackStorm InSpec Tests and report back with more detailed info.
 This can save time for both user & engineering team to avoid extensive troubleshooting steps.
 
 If something went wrong, - just ask them to run `st2-integration-tests`!
