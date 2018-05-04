@@ -39,7 +39,7 @@
     {
       "type": "shell",
       "inline": [
-        "trap 'caught SIGTERM' SIGTERM",
+        "trap 'caught TERM' TERM",
         "echo '\\033[33mRebooting before running Integration tests ...\\033[0m'",
         "sudo reboot"
       ],
