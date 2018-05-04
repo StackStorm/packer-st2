@@ -38,9 +38,9 @@
     },
     {
       "type": "shell",
-      "inline": [
-        "echo '\\033[33mRebooting the VM ...\\033[0m'",
-        "sudo reboot"
+      "execute_command": "{{.Vars}} sudo -S -E bash -eu '{{.Path}}'",
+      "scripts": [
+        "scripts/reboot.sh"
       ],
       "expect_disconnect": true
     },
