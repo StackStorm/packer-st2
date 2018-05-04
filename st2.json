@@ -38,9 +38,9 @@
     },
     {
       "type": "shell",
-      "execute_command": "{{.Vars}} sudo -S -E bash -eu '{{.Path}}'",
-      "scripts": [
-        "scripts/reboot.sh"
+      "inline": [
+        "echo '\\033[33mRebooting before running Integration tests ...\\033[0m'",
+        "sudo reboot"
       ],
       "expect_disconnect": true
     },
