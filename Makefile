@@ -26,7 +26,7 @@ validate: $(PACKER)
 	$(PACKER) validate st2.json
 
 build: $(PACKER)
-	$(PACKER) build st2.json
+	PACKER_LOG=1 $(PACKER) build st2.json
 
 clean:
 	rm -rf tmp/*
