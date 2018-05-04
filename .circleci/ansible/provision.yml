@@ -1,7 +1,7 @@
 ---
 - name:
     Provision the server, install build tools and dependencies
-    like Packer, VMware ovftool and Virtualbox.
+    like unzip and virtualbox.
   hosts: metal
   tasks:
     - name: Run install_dependencies.sh
