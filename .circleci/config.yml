@@ -28,7 +28,7 @@ jobs:
           command: apk add --update make
       - run:
           name: Packer Lint Check
-          command: make packer-lint
+          command: make validate
 
   # Run Inspec Lint checks for test files
   inspec-lint:

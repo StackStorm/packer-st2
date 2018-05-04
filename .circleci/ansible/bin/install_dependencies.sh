@@ -1,36 +1,8 @@
 #!/bin/bash
 
-# TODO: Eventually this step will not be required since these packages will be part of the custom image (which hasn't been created yet).
+# TODO: Eventually this step will not be required since these packages will be part of the custom
+#       image (which hasn't been created yet).
 # TODO: See "Codify the ova build Infrastructure #8": https://github.com/StackStorm/ova/issues/8
-###### PROVISION SERVER
-
-# Install packer
-PACKER_VERSION='1.2.3'
-
-PACKER_ZIP="packer_${PACKER_VERSION}_linux_amd64.zip"
-PACKER_URI="https://releases.hashicorp.com/packer/${PACKER_VERSION}/${PACKER_ZIP}"
-
-sudo wget -O ${PACKER_ZIP} ${PACKER_URI}
-sudo apt-get install -y unzip
-unzip -d /usr/local/bin ${PACKER_ZIP}
-rm -f ${PACKER_ZIP}
-
-S3_URI='https://s3-us-west-2.amazonaws.com/bwc-installer/ova-dependencies'
-
-# Install ovftool
-LIB='/usr/lib'
-OVFTOOL_TGZ='vmware-ovftool.tgz'
-OVFTOOL_URI=${S3_URI}/${OVFTOOL_TGZ}
-if [ ! -e /usr/bin/ovftool ]; then
-  wget -O ${LIB}/${OVFTOOL_TGZ} ${OVFTOOL_URI}
-  if [ -f ${LIB}/${OVFTOOL_TGZ} ]; then
-    pushd ${LIB} && \
-    tar xfz ${OVFTOOL_TGZ} && \
-    rm -f ${OVFTOOL_TGZ} && \
-    popd
-  fi
-  ln -s  ${LIB}/vmware-ovftool/ovftool /usr/bin/ovftool
-fi
 
 # Install virtualbox
 if [ ! -e /sbin/vboxconfig ]; then
