@@ -18,6 +18,6 @@ for dir in */; do
   dir=$(basename $dir)
   if [ -f "${dir}/inspec.yml" ]; then
     echo -e "\nRunning tests for \033[1;36m${dir}\033[0m ..."
-    sudo inspec exec ${dir}
+    sudo inspec exec --show-progress ${dir}
   fi
 done
