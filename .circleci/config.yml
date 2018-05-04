@@ -25,7 +25,7 @@ jobs:
       - checkout
       - run:
           name: Install dependencies
-          command: apk add --update make
+          command: apk add --update make curl
       - run:
           name: Packer Lint Check
           command: make validate
