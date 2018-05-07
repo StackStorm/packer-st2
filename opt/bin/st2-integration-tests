@@ -1,0 +1,16 @@
+#!/bin/bash
+
+echo -e '\033[1;38;5;208mRunning StackStorm Integration Tests ...\033[0m'
+
+sudo inspec exec --show-progress /opt/ova/test/integration/2-stackstorm
+
+retval=$?
+if [ $retval -ne 0 ]; then
+  echo
+  echo -e '\033[1;31mStackStorm Integration Tests failed!\033[0m'
+  echo -e '\033[1;31mSee the error above for more info.\033[0m'
+  echo
+  echo "If you believe it's by mistake, please report to:"
+  echo 'https://github.com/stackstorm/packer-st2/issues'
+fi
+exit $retval
