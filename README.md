@@ -12,6 +12,7 @@ Starting a Vagrant VM is easy:
 ```
 vagrant init stackstorm/st2
 vagrant up
+vagrant ssh
 ```
 
 ### Updating the Vagrant box
