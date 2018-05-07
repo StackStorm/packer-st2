@@ -38,10 +38,9 @@
     },
     {
       "type": "shell",
-      "inline": [
-        "trap 'caught TERM' TERM",
-        "echo '\\033[33mRebooting before running Integration tests ...\\033[0m'",
-        "sudo reboot"
+      "execute_command": "{{.Vars}} sudo -S -E bash -eu '{{.Path}}'",
+      "scripts": [
+        "scripts/reboot.sh"
       ],
       "expect_disconnect": true
     },
