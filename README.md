@@ -3,7 +3,7 @@
 [![Download from Vagrant Cloud](https://img.shields.io/badge/Vagrant-cloud%20%E2%86%92-1563ff.svg)](https://app.vagrantup.com/stackstorm/boxes/st2/)
 
 [Packer](https://www.packer.io/intro/index.html) templates with [InSpec](https://www.inspec.io/) integration tests for building Vagrant box & OVA image with [StackStorm](https://github.com/stackstorm/st2) community installed.
-A fully tested and packaged artifacts are produced during the build pipeline.
+Fully tested and packaged artifacts are produced during the build pipeline.
 
 
 ## Usage
