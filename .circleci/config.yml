@@ -1,0 +1,205 @@
+## Required ENV variables in CircleCI account:
+# PACKET_API_TOKEN
+# PACKET_PROJECT_ID
+# PACKET_SSH_PUB_KEY
+
+# Default YAML anchor, re-used in all CircleCI jobs
+_job_defaults: &job_defaults
+  working_directory: ~/ova
+
+# Re-used in jobs to terminate the Packet bare-metal device
+_destroy_device: &destroy_device
+  name: Destroy metal device on failure
+  command: ansible-playbook -v -i inventory destroy.yml
+  working_directory: .circleci/ansible/
+
+
+version: 2
+jobs:
+  # Run Packer Lint checks for OVA json file
+  packer-lint:
+    <<: *job_defaults
+    docker:
+      - image: hashicorp/packer
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: apk add --update make curl
+      - run:
+          name: Packer Lint Check
+          command: make validate
+
+  # Run Inspec Lint checks for test files
+  inspec-lint:
+    <<: *job_defaults
+    docker:
+      - image: chef/inspec:1
+    steps:
+      - checkout
+      - run:
+          name: Inspec Lint Check
+          command: |
+            cd test/integration/
+            for dir in */; do
+              dir=$(basename $dir)
+              if [ -f "${dir}/inspec.yml" ]; then
+                echo -e "\nRunning Inspec lint for \033[1;36m${dir}\033[0m ..."
+                inspec check --diagnose ${dir}
+              fi
+            done
+
+  # Request creation of bare-metal server on Packet.net
+  create-metal:
+    <<: *job_defaults
+    docker:
+      - image: st2opsadmin/ovabuild-circle
+    steps:
+      - checkout
+      - run:
+          name: Create bare metal device
+          command: ansible-playbook -v create.yml
+          working_directory: .circleci/ansible/
+      - persist_to_workspace:
+          root: ~/ova
+          paths:
+            - .circleci/ansible/.hosts
+            - .circleci/ansible/inventory
+      - run:
+          <<: *destroy_device
+          when: on_fail
+
+  # Install the required software like Packer, Virtualbox, etc on bare-metal Packet.net server
+  provision-metal:
+    <<: *job_defaults
+    docker:
+      - image: st2opsadmin/ovabuild-circle
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/ova
+      # Install the requirements like virtualbox on the bare metal server.
+      # TODO: Eventually this step will not be required since these packages will be part of the custom image (which hasn't been created yet).
+      # TODO: See "Codify the ova build Infrastructure #8": https://github.com/StackStorm/ova/issues/8
+      - run:
+          name: Provision the bare metal server
+          command: ansible-playbook -v -i inventory provision.yml
+          working_directory: .circleci/ansible/
+      - run:
+          name: Sync git workspace to metal server
+          command: rsync -avz -e 'ssh -o StrictHostKeyChecking=no' . root@metal:/home/ova/
+          environment:
+            HOSTALIASES: .circleci/ansible/.hosts
+      - run:
+          <<: *destroy_device
+          when: on_fail
+
+  # Run an OVA build via Packer on bare-metal server
+  build-test-ova:
+    <<: *job_defaults
+    docker:
+      - image: st2opsadmin/ovabuild-circle
+    environment:
+      HOSTALIASES: .circleci/ansible/.hosts
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/ova
+      - run:
+          name: Build & Test OVA
+          command: fab -f .circleci/bin/build.py -H metal build
+      - run:
+          name: Fetch back the produced OVA image
+          command: rsync -avz -e 'ssh -o StrictHostKeyChecking=no' root@metal:/home/ova/builds .
+      - store_artifacts:
+          path: builds
+          destination: .
+      - persist_to_workspace:
+          root: ~/ova
+          paths:
+            - builds
+      - run:
+          <<: *destroy_device
+          when: on_fail
+
+  # TODO: In a future PR, deploy artifact to S3.
+  deploy-ova:
+    <<: *job_defaults
+    docker:
+      - image: st2opsadmin/ovabuild-circle
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/ova
+
+  # Destroy the created Packet.net bare metal device.
+  destroy-metal:
+    <<: *job_defaults
+    docker:
+      - image: st2opsadmin/ovabuild-circle
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/ova
+      - run:
+          <<: *destroy_device
+          name: Destroy bare-metal device
+
+  # Destroy any packet.net bare metal devices running for more than an hour
+  scrap-metal:
+    <<: *job_defaults
+    docker:
+      - image: st2opsadmin/ovabuild-circle
+    steps:
+      - checkout
+      - run:
+          name: Destroy any metal hosts running longer than an hour
+          command: .circleci/bin/scrap-metal
+
+workflows:
+  version: 2
+  ova-cleanup:
+    triggers:
+      - schedule:
+          cron: "0 0,12 * * *"
+          filters:
+            branches:
+              only:
+                - master
+    jobs:
+      - scrap-metal:
+          filters:
+            branches:
+              only:
+                - master
+  ova:
+    jobs:
+      - packer-lint
+      - inspec-lint
+      - create-metal:
+          requires:
+            - packer-lint
+            - inspec-lint
+      - provision-metal:
+          requires:
+            - create-metal
+      - build-test-ova:
+          requires:
+            - provision-metal
+      - destroy-metal:
+          requires:
+            - build-test-ova
+      - deploy-ova:
+          requires:
+            - build-test-ova
+          filters:
+            branches:
+              only:
+                - master
+                - test-deploy
+
+experimental:
+  notify:
+    branches:
+      only:
+        - master

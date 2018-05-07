@@ -1,5 +1,5 @@
 PACKER ?= ~/bin/packer
-PACKER_VERSION := 1.2.2
+PACKER_VERSION := 1.2.1
 GIT ?= git
 CURL ?= curl
 SHELL := /bin/bash
