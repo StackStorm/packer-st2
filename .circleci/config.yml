@@ -78,7 +78,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: ~/ova
-      # Install packer, ovftool, and virtualbox on the bare metal server.
+      # Install the requirements like virtualbox on the bare metal server.
       # TODO: Eventually this step will not be required since these packages will be part of the custom image (which hasn't been created yet).
       # TODO: See "Codify the ova build Infrastructure #8": https://github.com/StackStorm/ova/issues/8
       - run:
