@@ -1,6 +1,7 @@
 # Changelog
 
 ## In Development
+* Add continuous integration (#19)
 
 ## v2.7.1-20180507
 * Initial release with minimally working StackStorm Vagrant box, created from Packer build pipeline
@@ -8,4 +9,3 @@
 * Add custom MOTD/welcome message after logging in to console (#15)
 * Add StackStorm infrastructure integration tests, ship with new `st2-integration-tests` executable available to user (#20)
 * Install Virtualbox guest additions (#22)
-* Add continuous integration (#19)
