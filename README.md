@@ -1,13 +1,24 @@
 # packer-st2
 Packer templates for building Vagrant box with [StackStorm](https://github.com/stackstorm/st2) community installed
 
-## Building Vagrant & OVA
+## Usage
+```
+vagrant init stackstorm/st2
+vagrant up
+```
 
+### `st2-integration-tests`
+Sometimes StackStorm does not run properly for some reason.
+Discovering why is the responsibility of `st2-integration-tests` which will run StackStorm InSpec Tests and report back with more detailed info.
+This can save time for both user & engineering team to avoid extensive troubleshooting steps.
+
+If something went wrong, - just run `st2-integration-tests`!
+
+## Building Vagrant & OVA
 ### Requirements
 The following tools are required for the build process:
 - Virtualbox - https://www.virtualbox.org/wiki/Downloads
 - Packer - https://www.packer.io/downloads.html (`make install-packer`)
-
 
 ### Build Steps
 * Run Packer via `make build`
@@ -23,11 +34,3 @@ To make testing close to a real-world scenario, an additional VM reboot step in 
 
 > Please don't forget to include respective tests for every new critical feature of the system!<br>
 > See https://www.inspec.io/docs/reference/dsl_inspec/ and existing `/tests` examples which makes easy to add more tests.
-
-### `st2-integration-tests`
-From a user's standpoint, for easier StackStorm troubleshooting there is an `st2-integration-tests` executable shipped in sbin/PATH.<br>
-Sometimes StackStorm does not run properly for some reason.
-Discovering why is the responsibility of `st2-integration-tests` which will run StackStorm InSpec Tests and report back with more detailed info.
-This can save time for both user & engineering team to avoid extensive troubleshooting steps.
-
-If something went wrong, - just ask them to run `st2-integration-tests`!
