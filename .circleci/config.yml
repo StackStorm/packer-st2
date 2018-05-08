@@ -122,7 +122,6 @@ jobs:
           <<: *destroy_device
           when: on_fail
 
-  # TODO: In a future PR, deploy artifact to S3.
   deploy-ova:
     <<: *job_defaults
     docker:
