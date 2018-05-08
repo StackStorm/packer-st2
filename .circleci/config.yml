@@ -196,13 +196,9 @@ workflows:
           requires:
             - build-test-ova
           filters:
-            branches:
-              only:
-                - master
-                - feature/deploy-releases
             tags:
               only:
-                - /^v.*/
+                - /^v\d+\.\d+\.\d+-\d{8}$/
 
 experimental:
   notify:
