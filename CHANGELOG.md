@@ -2,6 +2,7 @@
 
 ## In Development
 * Add continuous integration (#19)
+* Deploy tagged builds to GitHub releases (#25)
 
 ## v2.7.1-20180507
 * Initial release with minimally working StackStorm Vagrant box, created from Packer build pipeline
