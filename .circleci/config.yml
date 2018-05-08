@@ -131,6 +131,9 @@ jobs:
       - checkout
       - attach_workspace:
           at: ~/ova
+      - run:
+          name: Deploy to GitHub releases
+          command: ghr -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} ${CIRCLE_TAG} builds
 
   # Destroy the created Packet.net bare metal device.
   destroy-metal:
@@ -196,7 +199,7 @@ workflows:
             branches:
               only:
                 - master
-                - test-deploy
+                - feature/deploy-releases
 
 experimental:
   notify:
