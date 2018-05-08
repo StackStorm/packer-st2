@@ -200,6 +200,9 @@ workflows:
               only:
                 - master
                 - feature/deploy-releases
+            tags:
+              only:
+                - /^v.*/
 
 experimental:
   notify:
