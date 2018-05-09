@@ -182,12 +182,21 @@ workflows:
           requires:
             - packer-lint
             - inspec-lint
+          filters:
+            tags:
+              only: /.*/
       - provision-metal:
           requires:
             - create-metal
+          filters:
+            tags:
+              only: /.*/
       - build-test-ova:
           requires:
             - provision-metal
+          filters:
+            tags:
+              only: /.*/
       - destroy-metal:
           requires:
             - build-test-ova
@@ -195,6 +204,9 @@ workflows:
           requires:
             - build-test-ova
           filters:
+            branches:
+              ignore:
+                - /.*/
             tags:
               only:
                 - /^v\d+\.\d+\.\d+-\d{8}$/
