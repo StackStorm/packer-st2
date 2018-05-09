@@ -176,11 +176,11 @@ workflows:
                 - master
   packer-st2:
     jobs:
-      - packer-lint
+      - packer-lint:
           filters:
             tags:
               only: /.*/
-      - inspec-lint
+      - inspec-lint:
           filters:
             tags:
               only: /.*/
