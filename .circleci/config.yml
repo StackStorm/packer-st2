@@ -177,7 +177,13 @@ workflows:
   packer-st2:
     jobs:
       - packer-lint
+          filters:
+            tags:
+              only: /.*/
       - inspec-lint
+          filters:
+            tags:
+              only: /.*/
       - create-metal:
           requires:
             - packer-lint
@@ -200,13 +206,14 @@ workflows:
       - destroy-metal:
           requires:
             - build-test-ova
+          filters:
+            tags:
+              only: /.*/
       - deploy-ova:
           requires:
             - build-test-ova
           filters:
             tags:
-              ignore:
-                - /^.*/
               only:
                 - /^v\d+\.\d+\.\d+-\d{8}$/
 
