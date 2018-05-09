@@ -205,6 +205,8 @@ workflows:
             - build-test-ova
           filters:
             tags:
+              ignore:
+                - /^.*/
               only:
                 - /^v\d+\.\d+\.\d+-\d{8}$/
 
