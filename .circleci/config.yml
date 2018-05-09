@@ -160,7 +160,7 @@ jobs:
 
 workflows:
   version: 2
-  ova-cleanup:
+  packer-st2-cleanup:
     triggers:
       - schedule:
           cron: "0 0,12 * * *"
@@ -174,7 +174,7 @@ workflows:
             branches:
               only:
                 - master
-  ova:
+  packer-st2:
     jobs:
       - packer-lint
       - inspec-lint
