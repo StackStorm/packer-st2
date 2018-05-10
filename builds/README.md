@@ -1,1 +1,1 @@
-This directory contains the ova file.
+This directory contains the build artifacts.
