@@ -6,6 +6,8 @@
 # Default YAML anchor, re-used in all CircleCI jobs
 _job_defaults: &job_defaults
   working_directory: ~/ova
+  docker:
+    - image: st2opsadmin/ovabuild-circle
 
 # Re-used in jobs to terminate the Packet bare-metal device
 _destroy_device: &destroy_device
@@ -19,12 +21,7 @@ jobs:
   # Run Packer Lint checks for OVA json file
   packer-lint:
     <<: *job_defaults
-    docker:
-      - image: hashicorp/packer
     steps:
-      - run:
-          name: Install dependencies
-          command: apk add --update make curl git
       - checkout
       - run:
           name: Packer Lint Check
@@ -33,12 +30,7 @@ jobs:
   # Run Inspec Lint checks for test files
   inspec-lint:
     <<: *job_defaults
-    docker:
-      - image: chef/inspec:1
     steps:
-      - run:
-          name: Install dependencies
-          command: apk add --update git
       - checkout
       - run:
           name: Inspec Lint Check
@@ -55,8 +47,6 @@ jobs:
   # Request creation of bare-metal server on Packet.net
   create-metal:
     <<: *job_defaults
-    docker:
-      - image: st2opsadmin/ovabuild-circle
     steps:
       - checkout
       - run:
@@ -75,8 +65,6 @@ jobs:
   # Install the required software like Packer, Virtualbox, etc on bare-metal Packet.net server
   provision-metal:
     <<: *job_defaults
-    docker:
-      - image: st2opsadmin/ovabuild-circle
     steps:
       - checkout
       - attach_workspace:
@@ -100,8 +88,6 @@ jobs:
   # Run an OVA build via Packer on bare-metal server
   build-test-ova:
     <<: *job_defaults
-    docker:
-      - image: st2opsadmin/ovabuild-circle
     environment:
       HOSTALIASES: .circleci/ansible/.hosts
     steps:
@@ -127,8 +113,6 @@ jobs:
 
   deploy-ova:
     <<: *job_defaults
-    docker:
-      - image: st2opsadmin/ovabuild-circle
     steps:
       - checkout
       - attach_workspace:
@@ -140,8 +124,6 @@ jobs:
   # Destroy the created Packet.net bare metal device.
   destroy-metal:
     <<: *job_defaults
-    docker:
-      - image: st2opsadmin/ovabuild-circle
     steps:
       - checkout
       - attach_workspace:
@@ -153,8 +135,6 @@ jobs:
   # Destroy any packet.net bare metal devices running for more than an hour
   scrap-metal:
     <<: *job_defaults
-    docker:
-      - image: st2opsadmin/ovabuild-circle
     steps:
       - checkout
       - run:
