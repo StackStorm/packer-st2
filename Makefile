@@ -7,7 +7,7 @@ UNAME := $(shell uname | tr '[:upper:]' '[:lower:]')
 # Fetch latest stable release if 'ST2_VERSION' ENV var not set (ex: `2.7.1`)
 ST2_VERSION ?= $(shell curl --silent "https://api.github.com/repos/stackstorm/st2/releases/latest" | grep -Po '"tag_name": "v\K.*?(?=")')
 # Get today's date if 'BOX_VERSION' ENV var not set (ex: `20180507`)
-BOX_VERSION ?= $(shell date +%Y%m%d)
+BOX_VERSION ?= $(shell date -u +%Y%m%d)
 
 
 .PHONY: install-packer validate build clean

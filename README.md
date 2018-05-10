@@ -60,7 +60,7 @@ install & configure StackStorm and finally export both the Vagrant box and .OVA 
 ### Build params
 There are environment variables you can pass to control the StackStorm version and box/image version.
 - `ST2_VERSION` - `x.y.z` format, like `2.7.1` (default: latest st2 version)
-- `BOX_VERSION` - `YYYYMMDD` format, like `20180131` (default: today's date)
+- `BOX_VERSION` - `YYYYMMDD` format, like `20180131` (default: today's date in UTC)
 
 As a result, Packer will generate the box with version `v2.7.1-20180131`.
 
