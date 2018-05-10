@@ -28,6 +28,7 @@ tmp/packer_$(PACKER_VERSION).zip:
 
 validate: $(PACKER)
 	$(PACKER) validate st2.json
+	$(PACKER) validate st2_deploy.json
 
 build: $(PACKER)
 	$(PACKER) build \
