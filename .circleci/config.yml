@@ -176,18 +176,7 @@ workflows:
                 - master
   packer-st2:
     jobs:
-      - packer-lint:
-          filters:
-            tags:
-              only: /.*/
-      - inspec-lint:
-          filters:
-            tags:
-              only: /.*/
       - create-metal:
-          requires:
-            - packer-lint
-            - inspec-lint
           filters:
             tags:
               only: /.*/
