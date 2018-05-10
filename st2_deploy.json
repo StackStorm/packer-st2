@@ -3,7 +3,7 @@
     "purpose": "Packer template for deploying a .box artifact to Vagrant CLoud",
     "st2_version": "{{env `ST2_VERSION`}}",
     "box_version": "{{env `BOX_VERSION`}}",
-    "cloud_token": "{{ env `ATLAS_TOKEN` }}",
+    "cloud_token": "{{ env `VAGRANT_CLOUD_TOKEN` }}",
     "vm_name": "st2"
   },
   "builders": [

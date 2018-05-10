@@ -2,6 +2,7 @@
 # PACKET_API_TOKEN
 # PACKET_PROJECT_ID
 # PACKET_SSH_PUB_KEY
+# VAGRANT_CLOUD_TOKEN
 
 # Default YAML anchor, re-used in all CircleCI jobs
 _job_defaults: &job_defaults
@@ -121,8 +122,11 @@ jobs:
       - attach_workspace:
           at: ~/ova
       - run:
-          name: Deploy to GitHub releases
+          name: Deploy OVA to GitHub releases
           command: ghr -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} ${CIRCLE_TAG} builds
+      - run:
+          name: Deploy BOX to Vagrant Cloud
+          command: make deploy
 
   # Destroy the created Packet.net bare metal device.
   destroy-metal:
