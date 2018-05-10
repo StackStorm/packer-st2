@@ -57,6 +57,12 @@ The Packer build process will import `Ubuntu 16.04 Xenial Server` iso image in V
 install & configure StackStorm and finally export both the Vagrant box and .OVA image into the [`/builds`](/builds) directory.
 > See [`st2.json`](/st2.json) which codifies Packer build pipeline and could be used as a source of entire automation logic.
 
+### Build params
+There are environment variables you can pass to control the StackStorm version and box/image version.
+- `ST2_VERSION` - `x.y.z` format, like `2.7.1` (default: latest st2 version)
+- `BOX_VERSION` - `YYYYMMDD` format, like `20180131` (default: today's date in UTC)
+
+As a result, Packer will generate the box with version `v2.7.1-20180131`.
 
 ## Testing
 [`/test`](/test) directory contains Integration tests, powered by [InSpec.io](https://www.inspec.io/) Infrastructure Testing framework.
