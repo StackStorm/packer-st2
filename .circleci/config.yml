@@ -176,8 +176,8 @@ workflows:
                 - master
   packer-st2:
     jobs:
-      - packer-lint:
-      - inspec-lint:
+      - packer-lint
+      - inspec-lint
       - create-metal:
           requires:
             - packer-lint
