@@ -118,6 +118,9 @@ jobs:
       - attach_workspace:
           at: ~/ova
       - run:
+          name: Remove unnecessary files before deploy
+          command: rm builds/README.md builds/*.box
+      - run:
           name: Deploy to GitHub releases
           command: ghr -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} ${CIRCLE_TAG} builds
 
