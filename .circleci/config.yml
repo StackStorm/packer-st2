@@ -177,26 +177,14 @@ workflows:
   packer-st2:
     jobs:
       - packer-lint:
-          filters:
-            tags:
-              only: /.*/
       - inspec-lint:
-          filters:
-            tags:
-              only: /.*/
       - create-metal:
           requires:
             - packer-lint
             - inspec-lint
-          filters:
-            tags:
-              only: /.*/
       - provision-metal:
           requires:
             - create-metal
-          filters:
-            tags:
-              only: /.*/
       - build-test-ova:
           requires:
             - provision-metal
@@ -206,9 +194,6 @@ workflows:
       - destroy-metal:
           requires:
             - build-test-ova
-          filters:
-            tags:
-              only: /.*/
       - deploy-ova:
           requires:
             - build-test-ova
