@@ -35,5 +35,12 @@ build: $(PACKER)
 	  -var 'box_version=$(BOX_VERSION)' \
 	  st2.json
 
+# Deploy the .box, produced during the `build` to Vagrant Cloud
+deploy: $(PACKER)
+	$(PACKER) build \
+	  -var 'st2_version=$(ST2_VERSION)' \
+	  -var 'box_version=$(BOX_VERSION)' \
+	  st2_deploy.json
+
 clean:
 	rm -rf tmp/*

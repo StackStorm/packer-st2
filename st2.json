@@ -1,5 +1,6 @@
 {
   "variables": {
+    "purpose": "Packer template for building StackStorm Vagrant '.box' & '.ova' Virtual Appliance",
     "st2_version": "{{env `ST2_VERSION`}}",
     "box_version": "{{env `BOX_VERSION`}}",
     "st2_user": "st2admin",
