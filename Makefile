@@ -4,6 +4,10 @@ GIT ?= git
 CURL ?= curl
 SHELL := /bin/bash
 UNAME := $(shell uname | tr '[:upper:]' '[:lower:]')
+# Fetch latest stable release if 'ST2_VERSION' ENV var not set (ex: `2.7.1`)
+ST2_VERSION ?= $(shell curl --silent "https://api.github.com/repos/stackstorm/st2/releases/latest" | grep -Po '"tag_name": "v\K.*?(?=")')
+# Get today's date if 'BOX_VERSION' ENV var not set (ex: `20180507`)
+BOX_VERSION ?= $(shell date +%Y%m%d)
 
 
 .PHONY: install-packer validate build clean
@@ -26,7 +30,10 @@ validate: $(PACKER)
 	$(PACKER) validate st2.json
 
 build: $(PACKER)
-	$(PACKER) build st2.json
+	$(PACKER) build \
+	  -var 'st2_version=$(ST2_VERSION)' \
+	  -var 'box_version=$(BOX_VERSION)' \
+	  st2.json
 
 clean:
 	rm -rf tmp/*

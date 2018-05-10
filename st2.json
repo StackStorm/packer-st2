@@ -1,7 +1,7 @@
 {
   "variables": {
-    "st2_version": "2.7.1",
-    "box_version": "{{isotime \"20060102\"}}",
+    "st2_version": "{{env `ST2_VERSION`}}",
+    "box_version": "{{env `BOX_VERSION`}}",
     "st2_user": "st2admin",
     "st2_password": "Ch@ngeMe",
     "vm_name": "st2",
