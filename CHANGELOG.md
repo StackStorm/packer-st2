@@ -2,6 +2,7 @@
 
 ## In Development
 * Add continuous integration (#19)
+* Add `ST2_VERSION` and `BOX_VERSION` ENV vars for version pinning (#26)
 
 ## v2.7.1-20180507
 * Initial release with minimally working StackStorm Vagrant box, created from Packer build pipeline
