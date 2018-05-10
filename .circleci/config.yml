@@ -200,6 +200,9 @@ workflows:
       - destroy-metal:
           requires:
             - build-test-ova
+          filters:
+            tags:
+              only: /.*/
       - deploy-ova:
           requires:
             - build-test-ova
