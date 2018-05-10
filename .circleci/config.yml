@@ -182,9 +182,15 @@ workflows:
           requires:
             - packer-lint
             - inspec-lint
+          filters:
+            tags:
+              only: /.*/
       - provision-metal:
           requires:
             - create-metal
+          filters:
+            tags:
+              only: /.*/
       - build-test-ova:
           requires:
             - provision-metal
