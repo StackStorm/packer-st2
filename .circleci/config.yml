@@ -22,10 +22,10 @@ jobs:
     docker:
       - image: hashicorp/packer
     steps:
-      - checkout
       - run:
           name: Install dependencies
-          command: apk add --update make curl
+          command: apk add --update make curl git
+      - checkout
       - run:
           name: Packer Lint Check
           command: make validate
@@ -36,6 +36,9 @@ jobs:
     docker:
       - image: chef/inspec:1
     steps:
+      - run:
+          name: Install dependencies
+          command: apk add --update git
       - checkout
       - run:
           name: Inspec Lint Check
@@ -176,7 +179,18 @@ workflows:
                 - master
   packer-st2:
     jobs:
+      - packer-lint:
+          filters:
+            tags:
+              only: /.*/
+      - inspec-lint:
+          filters:
+            tags:
+              only: /.*/
       - create-metal:
+          requires:
+            - packer-lint
+            - inspec-lint
           filters:
             tags:
               only: /.*/
