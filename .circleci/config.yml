@@ -100,12 +100,12 @@ jobs:
       - run:
           name: Fetch back the produced OVA image
           command: rsync -avz -e 'ssh -o StrictHostKeyChecking=no' root@metal:/home/ova/builds .
-      - run:
-          name: Remove unnecessary files before persisting and deploying
-          command: rm builds/README.md builds/*.box
       - store_artifacts:
           path: builds
           destination: .
+      - run:
+          name: Remove unnecessary files before persisting and deploying
+          command: rm builds/README.md builds/*.box
       - persist_to_workspace:
           root: ~/ova
           paths:
