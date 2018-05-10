@@ -2,6 +2,7 @@
 
 ## In Development
 * Add continuous integration (#19)
+* Deploy tagged builds to GitHub releases (#25)
 * Add `ST2_VERSION` and `BOX_VERSION` ENV vars for version pinning (#26)
 
 ## v2.7.1-20180507

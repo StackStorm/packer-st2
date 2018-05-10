@@ -1,1 +1,1 @@
-This directory will contain built Vagrant box files.
+This directory contains the ova file.
