@@ -3,6 +3,7 @@
 # PACKET_PROJECT_ID
 # PACKET_SSH_PUB_KEY
 # VAGRANT_CLOUD_TOKEN
+# GITHUB_TOKEN
 
 # Default YAML anchor, re-used in all CircleCI jobs
 _job_defaults: &job_defaults
