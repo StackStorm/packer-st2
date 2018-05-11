@@ -27,7 +27,7 @@ tmp/packer_$(PACKER_VERSION).zip:
 	curl -fsSLo $@ 'https://releases.hashicorp.com/packer/$(PACKER_VERSION)/packer_$(PACKER_VERSION)_$(UNAME)_amd64.zip'
 	@echo Downloaded new Packer version: $(PACKER_VERSION)!
 
-validate: $(PACKER)
+validate: $(PACKER) ~/bin/packer-post-processor-vagrant-cloud-standalone
 	$(PACKER) validate st2.json
 	$(PACKER) validate st2_deploy.json
 
