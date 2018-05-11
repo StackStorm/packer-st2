@@ -104,9 +104,6 @@ jobs:
       - store_artifacts:
           path: builds
           destination: .
-      - run:
-          name: Remove unnecessary files before persisting and deploying
-          command: rm builds/README.md builds/*.box
       - persist_to_workspace:
           root: ~/ova
           paths:
@@ -123,7 +120,7 @@ jobs:
           at: ~/ova
       - run:
           name: Deploy OVA to GitHub releases
-          command: ghr -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} ${CIRCLE_TAG} builds
+          command: ghr -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} ${CIRCLE_TAG} builds/*.ova
       - run:
           name: Deploy BOX to Vagrant Cloud
           command: make deploy
