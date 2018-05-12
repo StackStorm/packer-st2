@@ -72,5 +72,5 @@ Vagrant.configure("2") do |config|
   Thanks for trying StackStorm!
 WELCOME
 
-  config.vm.provision "shell", inline: "st2 --version"
+  config.vm.provision "shell", inline: "st2 --version", run: "always"
 end
