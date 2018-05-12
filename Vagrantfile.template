@@ -72,5 +72,9 @@ Vagrant.configure("2") do |config|
   Thanks for trying StackStorm!
 WELCOME
 
-  config.vm.provision "shell", inline: "st2 --version", run: "always"
+  # Show currently installed StackStorm version
+  config.vm.provision "st2-version",
+    type: "shell",
+    inline: "st2 --version",
+    run: "always"
 end
