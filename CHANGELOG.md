@@ -2,6 +2,7 @@
 
 ## In Development
 * Fix Vagrant Cloud deploy step, caused by wrong 'file not exist' error (#31)
+* Expose StackStorm Vagrant access via IP `10.10.10.10` (#29)
 
 ## v2.7.1-20180511
 * Add continuous integration (#19)
