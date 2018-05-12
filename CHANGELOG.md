@@ -1,6 +1,7 @@
 # Changelog
 
 ## In Development
+* Fix Vagrant Cloud deploy step, caused by wrong 'file not exist' error (#31)
 
 ## v2.7.1-20180511
 * Add continuous integration (#19)
