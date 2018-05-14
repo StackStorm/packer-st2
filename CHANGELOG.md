@@ -1,6 +1,9 @@
 # Changelog
 
 ## In Development
+
+## v2.7.1-20180514
+* StackStorm 2.7.1 released
 * Fix Vagrant Cloud deploy step, caused by wrong 'file not exist' error (#31)
 * Expose StackStorm Vagrant access via IP `10.10.10.10` (#29)
 * Extract from `CIRCLE_TAG` and pin `ST2_VERSION` & `BOX_VERSION` on release (#33)
