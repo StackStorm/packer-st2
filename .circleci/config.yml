@@ -26,7 +26,7 @@ jobs:
     steps:
       - checkout
       - run: |
-          export "CIRCLE_TAG=v2.7.1-20180130"
+          export CIRCLE_TAG=v2.7.1-20180130
 
           if [ ! -z "$CIRCLE_TAG" ]; then
             echo "export ST2_VERSION=$(echo $CIRCLE_TAG|grep -oP '(?<=v)(\d+\.\d+\.\d+)(?=-\d{8}$)'" >> $BASH_ENV
