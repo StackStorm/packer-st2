@@ -24,11 +24,17 @@ jobs:
   packer-lint:
     <<: *job_defaults
     environment:
-      ST2_VERSION: "{{ 'v2.7.1-20180130'.split('-')[0] }}"
-      BOX_VERSION: "{{ 'v2.7.1-20180130'.split('-')[1] }}"
+      CIRCLE_TAG: "v2.7.1-20180130"
     steps:
       - checkout
       - run: |
+          if [ ! -z "$CIRCLE_TAG" ]; then
+            echo "export ST2_VERSION=$(echo $CIRCLE_TAG|grep -oP '(?<=v)(\d+\.\d+\.\d+)(?=-\d{8}$)'" >> $BASH_ENV
+            echo "export BOX_VERSION=$(echo $CIRCLE_TAG|grep -oP '(?<=\d-)\d{8}$')" >> $BASH_ENV
+          fi
+
+          . $BASH_ENV
+
           echo "ST2_VERSION=$ST2_VERSION"
           echo "BOX_VERSION=$BOX_VERSION"
           exit 1
