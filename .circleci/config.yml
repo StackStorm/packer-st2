@@ -18,22 +18,14 @@ _destroy_device: &destroy_device
   working_directory: .circleci/ansible/
 
 # Extract and export 'ST2_VERSION' and 'BOX_VERSION' when 'CIRCLE_TAG' ENV var is set
-_split_circle_tag: &split_circle_tag
+_pin_version_on_release: &pin_version_on_release
   run:
-    name:
+    name: Pin 'ST2_VERSION' and 'BOX_VERSION' on tag release
     command: |
-      export CIRCLE_TAG=v2.7.1-20183001
       if [ ! -z "$CIRCLE_TAG" ]; then
         echo "export ST2_VERSION=$(echo $CIRCLE_TAG|grep -oP '(?<=v)(\d+\.\d+\.\d+)(?=-\d{8}$)')" >> $BASH_ENV
         echo "export BOX_VERSION=$(echo $CIRCLE_TAG|grep -oP '(?<=\d-)\d{8}$')" >> $BASH_ENV
       fi
-
-      # Debug
-      . $BASH_ENV
-      echo "CIRCLE_TAG=$CIRCLE_TAG"
-      echo "ST2_VERSION=$ST2_VERSION"
-      echo "BOX_VERSION=$BOX_VERSION"
-      exit 1
 
 version: 2
 jobs:
@@ -42,7 +34,6 @@ jobs:
     <<: *job_defaults
     steps:
       - checkout
-      - <<: *split_circle_tag
       - run:
           name: Packer Lint Check
           command: make validate
@@ -114,6 +105,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: ~/ova
+      - <<: *pin_version_on_release
       - run:
           name: Build & Test OVA
           command: fab -f .circleci/bin/build.py -H metal build
@@ -137,6 +129,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: ~/ova
+      - <<: *pin_version_on_release
       - run:
           name: Deploy OVA to GitHub releases
           command: ghr -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} ${CIRCLE_TAG} builds/*.ova
