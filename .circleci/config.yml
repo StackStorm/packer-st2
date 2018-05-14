@@ -17,6 +17,23 @@ _destroy_device: &destroy_device
   command: ansible-playbook -v -i inventory destroy.yml
   working_directory: .circleci/ansible/
 
+# Extract and export 'ST2_VERSION' and 'BOX_VERSION' when 'CIRCLE_TAG' ENV var is set
+_split_circle_tag: &split_circle_tag
+  run:
+    name:
+    command: |
+      export CIRCLE_TAG=v2.7.1-20183001
+      if [ ! -z "$CIRCLE_TAG" ]; then
+        echo "export ST2_VERSION=$(echo $CIRCLE_TAG|grep -oP '(?<=v)(\d+\.\d+\.\d+)(?=-\d{8}$)')" >> $BASH_ENV
+        echo "export BOX_VERSION=$(echo $CIRCLE_TAG|grep -oP '(?<=\d-)\d{8}$')" >> $BASH_ENV
+      fi
+
+      # Debug
+      . $BASH_ENV
+      echo "CIRCLE_TAG=$CIRCLE_TAG"
+      echo "ST2_VERSION=$ST2_VERSION"
+      echo "BOX_VERSION=$BOX_VERSION"
+      exit 1
 
 version: 2
 jobs:
@@ -25,20 +42,7 @@ jobs:
     <<: *job_defaults
     steps:
       - checkout
-      - run: |
-          export CIRCLE_TAG=v2.7.1-20180130
-
-          if [ ! -z "$CIRCLE_TAG" ]; then
-            echo "export ST2_VERSION=$(echo $CIRCLE_TAG|grep -oP '(?<=v)(\d+\.\d+\.\d+)(?=-\d{8}$)')" >> $BASH_ENV
-            echo "export BOX_VERSION=$(echo $CIRCLE_TAG|grep -oP '(?<=\d-)\d{8}$')" >> $BASH_ENV
-          fi
-
-          . $BASH_ENV
-
-          echo "CIRCLE_TAG=$CIRCLE_TAG"
-          echo "ST2_VERSION=$ST2_VERSION"
-          echo "BOX_VERSION=$BOX_VERSION"
-          exit 1
+      - <<: *split_circle_tag
       - run:
           name: Packer Lint Check
           command: make validate
