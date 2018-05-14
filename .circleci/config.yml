@@ -23,11 +23,11 @@ jobs:
   # Run Packer Lint checks for OVA json file
   packer-lint:
     <<: *job_defaults
-    environment:
-      CIRCLE_TAG: "v2.7.1-20180130"
     steps:
       - checkout
       - run: |
+          export "CIRCLE_TAG=v2.7.1-20180130"
+
           if [ ! -z "$CIRCLE_TAG" ]; then
             echo "export ST2_VERSION=$(echo $CIRCLE_TAG|grep -oP '(?<=v)(\d+\.\d+\.\d+)(?=-\d{8}$)'" >> $BASH_ENV
             echo "export BOX_VERSION=$(echo $CIRCLE_TAG|grep -oP '(?<=\d-)\d{8}$')" >> $BASH_ENV
@@ -35,6 +35,7 @@ jobs:
 
           . $BASH_ENV
 
+          echo "CIRCLE_TAG=$CIRCLE_TAG"
           echo "ST2_VERSION=$ST2_VERSION"
           echo "BOX_VERSION=$BOX_VERSION"
           exit 1
