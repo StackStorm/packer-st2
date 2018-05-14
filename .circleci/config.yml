@@ -17,6 +17,18 @@ _destroy_device: &destroy_device
   command: ansible-playbook -v -i inventory destroy.yml
   working_directory: .circleci/ansible/
 
+# Extract and export 'ST2_VERSION' and 'BOX_VERSION' when 'CIRCLE_TAG' ENV var is set
+_pin_version_on_release: &pin_version_on_release
+  run:
+    name: Pin 'ST2_VERSION' and 'BOX_VERSION' on tag release
+    command: |
+      if [ ! -z "$CIRCLE_TAG" ]; then
+        echo "export ST2_VERSION=$(echo $CIRCLE_TAG|grep -oP '(?<=v)(\d+\.\d+\.\d+)(?=-\d{8}$)')" >> $BASH_ENV
+        echo "export BOX_VERSION=$(echo $CIRCLE_TAG|grep -oP '(?<=\d-)\d{8}$')" >> $BASH_ENV
+        echo "Pinned ST2_VERSION=$ST2_VERSION and BOX_VERSION=$BOX_VERSION based on release CIRCLE_TAG=$CIRCLE_TAG"
+      else
+        echo '$CIRCLE_TAG is not set, - skipping a non release build ...'
+      fi
 
 version: 2
 jobs:
@@ -96,6 +108,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: ~/ova
+      - <<: *pin_version_on_release
       - run:
           name: Build & Test OVA
           command: fab -f .circleci/bin/build.py -H metal build
@@ -119,6 +132,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: ~/ova
+      - <<: *pin_version_on_release
       - run:
           name: Deploy OVA to GitHub releases
           command: ghr -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} ${CIRCLE_TAG} builds/*.ova
