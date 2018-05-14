@@ -30,6 +30,8 @@ _pin_version_on_release: &pin_version_on_release
       else
         echo '$CIRCLE_TAG is not set, - skipping a non release build ...'
       fi
+    environment:
+      CIRCLE_TAG: "v2.7.0-20180130"
 
 version: 2
 jobs:
