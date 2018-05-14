@@ -25,6 +25,7 @@ _pin_version_on_release: &pin_version_on_release
       if [ ! -z "$CIRCLE_TAG" ]; then
         echo "export ST2_VERSION=$(echo $CIRCLE_TAG|grep -oP '(?<=v)(\d+\.\d+\.\d+)(?=-\d{8}$)')" >> $BASH_ENV
         echo "export BOX_VERSION=$(echo $CIRCLE_TAG|grep -oP '(?<=\d-)\d{8}$')" >> $BASH_ENV
+        . $BASH_ENV
         echo "Pinned ST2_VERSION=$ST2_VERSION and BOX_VERSION=$BOX_VERSION based on release CIRCLE_TAG=$CIRCLE_TAG"
       else
         echo '$CIRCLE_TAG is not set, - skipping a non release build ...'
