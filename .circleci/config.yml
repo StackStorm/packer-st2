@@ -23,8 +23,15 @@ jobs:
   # Run Packer Lint checks for OVA json file
   packer-lint:
     <<: *job_defaults
+    environment:
+      ST2_VERSION: "{{ 'v2.7.1-20180130'.split('-')[0] }}"
+      BOX_VERSION: "{{ 'v2.7.1-20180130'.split('-')[1] }}"
     steps:
       - checkout
+      - run: |
+          echo "ST2_VERSION=$ST2_VERSION"
+          echo "BOX_VERSION=$BOX_VERSION"
+          exit 1
       - run:
           name: Packer Lint Check
           command: make validate
