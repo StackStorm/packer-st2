@@ -2,6 +2,9 @@
 
 ## In Development
 
+## v2.7.2-20180516
+* StackStorm 2.7.2 released
+
 ## v2.7.1-20180514
 * StackStorm 2.7.1 released
 * Fix Vagrant Cloud deploy step, caused by wrong 'file not exist' error (#31)
