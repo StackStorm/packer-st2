@@ -1,6 +1,7 @@
 # Changelog
 
 ## In Development
+* Add Vagrant port-forwarding rule to access st2web via `https://127.0.0.1:9000/` as a fallback (#36)
 
 ## v2.7.2-20180516
 * StackStorm 2.7.2 released
