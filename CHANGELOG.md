@@ -3,6 +3,9 @@
 ## In Development
 
 
+## v2.7.2-20180614
+* Use /30 mask for private network (access via IP `10.10.10.10`). (#41)
+
 ## v2.7.2-20180523
 * Add Vagrant port-forwarding rule to access st2web via `https://127.0.0.1:9000/` as a fallback (#36)
 
