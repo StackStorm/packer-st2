@@ -82,7 +82,7 @@ control 'st2web' do
   end
 
   describe http('http://localhost/', enable_remote_worker: true) do
-    its('status') { should eq 301 }
+    its('status') { should eq 308 }
   end
 
   describe http('https://localhost/', ssl_verify: false, enable_remote_worker: true) do
