@@ -6,7 +6,7 @@ echo -e '\033[33mInstalling Virtualbox guest additions ...\033[0m'
 apt-get -y install --no-install-recommends libdbus-1-3
 
 # Install Linux headers and compiler toolchain
-apt-get -y install build-essential linux-headers-$(uname -r)
+apt-get -y install build-essential
 
 # The netboot installs the VirtualBox support (old) so we have to remove it
 apt-get install -y dkms
