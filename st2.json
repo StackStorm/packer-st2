@@ -28,7 +28,6 @@
         "scripts/pre_cleanup.sh",
         "scripts/vagrant.sh",
         "scripts/welcome.sh",
-        "scripts/virtualbox.sh",
         "scripts/st2-integration-tests.sh"
       ]
     },
