@@ -2,6 +2,9 @@
 
 ## In Development
 
+## v2.10.0-20181215
+* StackStorm 2.10.0 released
+
 ## v2.9.0-20180925
 * Use correct version of linux-headers
 * Upgrade from Ubuntu 16.04.4 to 16.04.5
