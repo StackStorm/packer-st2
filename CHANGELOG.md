@@ -2,6 +2,9 @@
 
 ## In Development
 
+## v2.10.3-20190307
+* StackStorm 2.10.3 released
+
 ## v2.10.2-20190223
 * StackStorm 2.10.2 released
 
