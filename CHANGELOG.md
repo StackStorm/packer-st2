@@ -2,6 +2,10 @@
 
 ## In Development
 
+
+## v2.10.3-20190308
+* Upgrade Ubuntu to `16.04.06` (#46)
+
 ## v2.10.3-20190307
 * StackStorm 2.10.3 released
 
@@ -29,7 +33,6 @@
 
 ## v2.8.0-20180710
 * StackStorm 2.8.0 released
-
 
 ## v2.7.2-20180614
 * Use /30 mask for private network (access via IP `10.10.10.10`). (#41)
