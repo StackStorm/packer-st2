@@ -2,6 +2,9 @@
 
 ## In Development
 
+## v2.10.4-20190315
+* StackStorm 2.10.4 released
+
 
 ## v2.10.3-20190308
 * Upgrade Ubuntu to `16.04.06` (#46)
