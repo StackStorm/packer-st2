@@ -2,6 +2,9 @@
 
 ## In Development
 
+## v3.0.1-20190529
+* StackStorm 3.0.1 released
+
 ## v3.0.0-20190426
 * StackStorm 3.0.0 released
 
