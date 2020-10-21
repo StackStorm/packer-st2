@@ -4,6 +4,8 @@
 
 ## v3.3.0-20201021
 * StackStorm 3.3.0 released
+* Upgrade Ubuntu to `16.04.07` (#50)
+* Switch the VirtualBox guest additions installation from .iso to .deb packages (#49)
 
 ## v3.2.0-20200429
 * StackStorm 3.2.0 released
@@ -19,7 +21,6 @@
 
 ## v2.10.4-20190315
 * StackStorm 2.10.4 released
-
 
 ## v2.10.3-20190308
 * Upgrade Ubuntu to `16.04.06` (#46)
