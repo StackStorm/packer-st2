@@ -3,7 +3,7 @@
 # found at https://docs.chef.io/inspec_reference.html
 
 KERNEL_MODULES = %w(
-  vboxvideo vboxsf vboxguest
+  vboxsf vboxguest
 ).freeze
 
 control 'vbox-guest-additions' do
