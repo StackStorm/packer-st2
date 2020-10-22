@@ -5,7 +5,7 @@ echo -e '\033[33mRunning cleanup scripts to reduce the resulting box size ...\03
 
 # Stop services before the final cleanup
 st2ctl stop
-systemctl stop mongod rabbitmq-server postgresql
+systemctl stop mongod rabbitmq-server
 
 # Apt cleanup
 apt-get -y autoremove;

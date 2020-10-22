@@ -1,6 +1,6 @@
 ## Testing
 This directory contains Integration tests, powered by [InSpec.io](https://www.inspec.io/) Infrastructure Testing framework.
-They ensure that custom OS Linux-level modifications are in place and StackStorm was really deployed, works correctly and alive with other services it relies on like RabbitMQ, PostgreSQL, MongoDB.
+They ensure that custom OS Linux-level modifications are in place and StackStorm was really deployed, works correctly and alive with other services it relies on like RabbitMQ, MongoDB.
 
 For InSpec documentation see: 
 - DSL: https://www.inspec.io/docs/reference/dsl_inspec/
