@@ -4,8 +4,6 @@
 #       image (which hasn't been created yet).
 # TODO: See "Codify the ova build Infrastructure #8": https://github.com/StackStorm/ova/issues/8
 
-sudo apt-get install -y unzip
-
 # Install virtualbox
 if [ ! -e /sbin/vboxconfig ]; then
   sudo sh -c "echo 'deb http://download.virtualbox.org/virtualbox/debian xenial contrib non-free' > /etc/apt/sources.list.d/virtualbox.list"
