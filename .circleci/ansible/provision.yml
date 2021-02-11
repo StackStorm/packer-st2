@@ -4,5 +4,13 @@
     like unzip and virtualbox.
   hosts: metal
   tasks:
-    - name: Run install_dependencies.sh
-      script: "{{ playbook_dir }}/bin/install_dependencies.sh"
+      - name: Install missing unzip package
+        apt:
+          name: unzip
+          update_cache: yes
+        register: _task
+        retries: 3
+        delay: 5
+        until: _task is succeeded
+      - name: Run install_virtualbox.sh
+      script: "{{ playbook_dir }}/bin/install_virtualbox.sh"
