@@ -23,7 +23,6 @@ printf "\n"
 printf " * Documentation: https://docs.stackstorm.com/\n"
 printf " * Community: https://stackstorm.com/community-signup\n"
 printf " * Forum: https://forum.stackstorm.com/\n"
-printf " * \033[1;38;5;93mEnterprise: https://stackstorm.com/#product\033[0m\n\n"
 EOF
 
 chmod +x /etc/update-motd.d/*
