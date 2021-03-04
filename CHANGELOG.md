@@ -2,6 +2,9 @@
 
 ## In Development
 
+## v3.4.0-20210304
+* StackStorm 3.4.0 released
+
 ## v3.3.0-20201021
 * StackStorm 3.3.0 released
 * Upgrade Ubuntu to `16.04.07` (#50)
