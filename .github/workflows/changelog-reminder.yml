@@ -1,5 +1,6 @@
 # GH Action notifies PR author about the missing Changelog record
 # https://github.com/marketplace/actions/missing-changelog-reminder
+# NB! It doesn't work for the Forked PRs (More: https://github.com/peterjgrainger/action-changelog-reminder/issues/28)
 
 on:
   pull_request:
