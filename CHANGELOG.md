@@ -2,6 +2,10 @@
 
 ## In Development
 
+## v3.4.0-20210309
+* Switch to python3 for Ubuntu 16.04 LTS since st2 v3.4.0 (#55)
+* Remove deprecated `st2resultstracker` service (#55)
+
 ## v3.4.0-20210304
 * StackStorm 3.4.0 released
 
