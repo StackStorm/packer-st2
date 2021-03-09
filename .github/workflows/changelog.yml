@@ -1,0 +1,18 @@
+# GH Action notifies about the missing Changelog record for every PR
+# https://github.com/marketplace/actions/missing-changelog-reminder
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+name: Changelog Reminder
+jobs:
+  remind:
+    name: Changelog Reminder
+    runs-on: ubuntu-latest
+    # don't warn for a Draft PRs
+    if: ${{ !github.event.pull_request.draft }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: mskelton/changelog-reminder-action@v2
+        with:
+          message: "@${{ github.actor }} your pull request is missing a changelog. Please update the [CHANGELOG.md](/CHANGELOG.md)!"
