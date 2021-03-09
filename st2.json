@@ -36,7 +36,7 @@
       "type": "shell",
       "inline": [
         "echo '\\033[33mInstalling StackStorm v{{ user `st2_version` }} ...\\033[0m'",
-        "curl --retry 3 -fsSL https://stackstorm.com/packages/install.sh | bash -seu -- --user={{ user `st2_user` }} --password={{ user `st2_password` }} --version={{ user `st2_version` }}"
+        "curl --retry 3 -fsSL https://stackstorm.com/packages/install.sh | bash -seu -- --user={{ user `st2_user` }} --password={{ user `st2_password` }} --version={{ user `st2_version` }} --u16-add-insecure-py3-ppa"
       ]
     },
     {

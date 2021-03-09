@@ -7,9 +7,9 @@ echo 'StackStorm \n \l' > /etc/issue
 cat << 'EOF' > /etc/update-motd.d/00-header
 #!/bin/sh
 
-if [ -f /opt/stackstorm/st2/lib/python2.7/site-packages/st2common/__init__.py ]; then
+if [ -f /opt/stackstorm/st2/lib/python3.6/site-packages/st2common/__init__.py ]; then
   # Get st2 version based on hardcoded string in st2common
-  ST2_VERSION=$(python -c 'execfile("/opt/stackstorm/st2/lib/python2.7/site-packages/st2common/__init__.py"); print __version__')
+  ST2_VERSION=$(/opt/stackstorm/st2/bin/python -c 'exec(open("/opt/stackstorm/st2/lib/python3.6/site-packages/st2common/__init__.py").read()); print(__version__)')
   printf "Welcome to \033[1;38;5;208mStackStorm\033[0m \033[1m%s\033[0m (Ubuntu 16.04 LTS %s %s)\n" "v${ST2_VERSION}" "$(uname -o)" "$(uname -m)"
 else
   printf "Welcome to \033[1;38;5;208mStackStorm\033[0m (Ubuntu 16.04 LTS %s %s)\n" "$(uname -o)" "$(uname -m)"
