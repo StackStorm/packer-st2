@@ -16,5 +16,4 @@ jobs:
       - uses: actions/checkout@v2
       - uses: mskelton/changelog-reminder-action@v2
         with:
-          changelogRegex: "CHANGELOG\.md"
           message: "@${{ github.actor }} your pull request is missing a changelog. Please update the [CHANGELOG.md](./../blob/master/CHANGELOG.md)!"
