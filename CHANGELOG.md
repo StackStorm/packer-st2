@@ -2,6 +2,9 @@
 
 ## In Development
 
+## v3.4.1-20210314
+* StackStorm 3.4.1 released
+
 ## v3.4.0-20210304
 * StackStorm 3.4.0 released
 * Remove references to EWC/Enterprise StackStorm #53
