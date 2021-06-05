@@ -6,7 +6,7 @@
 
 # Install virtualbox
 if [ ! -e /sbin/vboxconfig ]; then
-  sudo sh -c "echo 'deb http://download.virtualbox.org/virtualbox/debian xenial contrib non-free' > /etc/apt/sources.list.d/virtualbox.list"
+  sudo sh -c "echo 'deb http://download.virtualbox.org/virtualbox/debian bionic contrib non-free' > /etc/apt/sources.list.d/virtualbox.list"
   wget -q http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc -O- | sudo apt-key add -
   sudo apt-get update
   sudo apt-get install -y linux-headers-generic linux-headers-$(uname -r)

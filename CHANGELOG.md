@@ -1,6 +1,7 @@
 # Changelog
 
 ## In Development
+* Switch OS to Ubuntu Bionic `18.04` LTS
 
 ## v3.4.0-20210304
 * StackStorm 3.4.0 released
