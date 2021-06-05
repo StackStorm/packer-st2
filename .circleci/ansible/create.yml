@@ -57,7 +57,7 @@
         path: "{{ playbook_dir }}/.hosts"
         block: |
           # see https://unix.stackexchange.com/a/226318/217844
-          metal {{ packet.devices[0].public_ipv4 }}.xip.io
+          metal {{ packet.devices[0].public_ipv4 }} {{ packet.devices[0].public_ipv4 }}.nip.io
 
     - name: Wait for SSH
       wait_for:
