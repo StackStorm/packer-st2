@@ -3,8 +3,14 @@
 ## In Development
 * Switch OS to Ubuntu Bionic `18.04` LTS
 
+## v3.4.1-20210314
+* StackStorm 3.4.1 released
+
 ## v3.4.0-20210304
 * StackStorm 3.4.0 released
+* Remove references to EWC/Enterprise StackStorm #53
+* Remove check for the (now removed) `st2resultstracker` process from tests #55
+* Add `--u16-add-insecure-py3-ppa` to enable Ubuntu 16.04 LTS support
 
 ## v3.3.0-20201021
 * StackStorm 3.3.0 released
