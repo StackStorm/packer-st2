@@ -2,11 +2,14 @@
 
 echo -e '\033[33mRunning cleanup scripts before installing StackStorm ...\033[0m'
 
+## NB! Disabled as it installs 114 revision of the kernel resulting in:
+## "Kernel panic - not syncing: VFS: Unable to mount root fs on unknown-block(0,0)"
+## Latest confirmed working kernel version: 4.15.0-112
 # Delete all Linux headers
-dpkg --list \
-  | awk '{ print $2 }' \
-  | grep 'linux-headers' \
-  | xargs apt-get -y purge;
+#dpkg --list \
+#  | awk '{ print $2 }' \
+#  | grep 'linux-headers' \
+#  | xargs apt-get -y purge;
 
 # Remove specific Linux kernels, such as linux-image-3.11.0-15-generic but
 # keeps the current kernel and does not touch the virtual packages,
