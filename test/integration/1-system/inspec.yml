@@ -1,7 +1,7 @@
 name: system
 title: Integration Tests for base OS and its configuration
 summary: >
-  Tests for base OS, eg Ubuntu 16.04 LTS to verify that modifications and adjustments made
+  Tests for base OS, eg Ubuntu 18.04 LTS to verify that modifications and adjustments made
   like user, packages, services and other Linux-related changes are applied and work as expected.
 maintainer: StackStorm
 copyright: StackStorm
