@@ -12,5 +12,44 @@
       retries: 3
       delay: 5
       until: _task is succeeded
-    - name: Run install_virtualbox.sh
-      script: "{{ playbook_dir }}/bin/install_virtualbox.sh"
+
+    - name: Add Virtualbox key
+      become: true
+      apt_key:
+        url: "https://www.virtualbox.org/download/oracle_vbox_2016.asc"
+        state: present
+      register: _task
+      retries: 3
+      delay: 5
+      until: _task is succeeded
+
+    - name: Add Virtualbox repository
+      become: yes
+      apt_repository:
+        repo: "deb http://download.virtualbox.org/virtualbox/debian {{ ansible_distribution_release }} contrib"
+        state: present
+      register: _task
+      retries: 3
+      delay: 5
+      until: _task is succeeded
+
+    - name: Install virtualbox
+      become: yes
+      apt:
+        name: "{{ item }}"
+        state: present
+        update_cache: yes
+      with_items:
+        - "linux-headers-{{ ansible_kernel }}"
+        - linux-headers-generic
+        - dkms
+        - build-essential
+        - virtualbox-5.2
+      register: _task
+      retries: 3
+      delay: 5
+      until: _task is succeeded
+
+    - name: Run vboxconfig
+      command: /sbin/vboxconfig
+      become: yes

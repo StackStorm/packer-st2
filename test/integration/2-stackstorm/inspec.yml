@@ -8,7 +8,7 @@ maintainer: StackStorm
 copyright: StackStorm
 copyright_email: info@stackstorm.com
 license: Apache-2.0
-version: 0.2.0
+version: 0.3.0
 supports:
   - os-name: ubuntu
-    release: 16.04
+    release: 18.04

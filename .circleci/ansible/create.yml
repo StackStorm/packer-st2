@@ -20,7 +20,7 @@
         auth_token: "{{ lookup('env', 'PACKET_API_TOKEN') }}"
         facility: sjc1
         hostnames: "{{ lookup('env', 'CIRCLE_SHA1')|truncate(8,True,'') }}{{ '%Y%m%d%H%M%S'|strftime }}"
-        operating_system: ubuntu_16_04
+        operating_system: ubuntu_18_04
         plan: baremetal_1
         project_id: "{{ lookup('env', 'PACKET_PROJECT_ID') }}"
         state: active
@@ -57,7 +57,7 @@
         path: "{{ playbook_dir }}/.hosts"
         block: |
           # see https://unix.stackexchange.com/a/226318/217844
-          metal {{ packet.devices[0].public_ipv4 }}.xip.io
+          metal {{ packet.devices[0].public_ipv4 }} {{ packet.devices[0].public_ipv4 }}.nip.io
 
     - name: Wait for SSH
       wait_for:

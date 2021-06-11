@@ -36,7 +36,7 @@
       "type": "shell",
       "inline": [
         "echo '\\033[33mInstalling StackStorm v{{ user `st2_version` }} ...\\033[0m'",
-        "curl --retry 3 -fsSL https://stackstorm.com/packages/install.sh | bash -seu -- --user={{ user `st2_user` }} --password={{ user `st2_password` }} --version={{ user `st2_version` }} --u16-add-insecure-py3-ppa"
+        "curl --retry 3 -fsSL https://stackstorm.com/packages/install.sh | bash -seu -- --user={{ user `st2_user` }} --password={{ user `st2_password` }} --version={{ user `st2_version` }}"
       ]
     },
     {
@@ -93,16 +93,17 @@
       "headless": true,
       "http_directory": "http",
       "iso_urls": [
-        "http://releases.ubuntu.com/16.04/ubuntu-16.04.7-server-amd64.iso"
+        "https://cdimage.ubuntu.com/releases/18.04/release/ubuntu-18.04.5-server-amd64.iso"
       ],
       "iso_checksum_type": "sha256",
-      "iso_checksum": "b23488689e16cad7a269eb2d3a3bf725d3457ee6b0868e00c8762d3816e25848",
+      "iso_checksum": "8c5fc24894394035402f66f3824beb7234b757dd2b5531379cb310cedfdf0996",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_wait_timeout": "10000s",
       "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
-      "guest_additions_mode": "disable",
+      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+      "virtualbox_version_file": ".vbox_version",
       "vm_name": "{{user `vm_name`}}",
       "export_opts": [
         "--ovf10",

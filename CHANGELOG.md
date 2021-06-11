@@ -1,6 +1,8 @@
 # Changelog
 
 ## In Development
+* Switch OS to Ubuntu Bionic `18.04` LTS (#61)
+* Switch the VirtualBox guest additions installation from .deb packages to native .iso (#61)
 
 ## v3.4.1-20210314
 * StackStorm 3.4.1 released
