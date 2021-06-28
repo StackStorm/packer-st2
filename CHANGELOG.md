@@ -1,6 +1,9 @@
 # Changelog
 
 ## In Development
+
+## v3.5.0-20210628
+* StackStorm 3.5.0 released
 * Switch OS to Ubuntu Bionic `18.04` LTS (#61)
 * Switch the VirtualBox guest additions installation from .deb packages to native .iso (#61)
 
