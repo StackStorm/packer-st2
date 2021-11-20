@@ -2,6 +2,9 @@
 
 ## In Development
 
+## v3.6.0-20211120
+* StackStorm 3.6.0 released
+
 ## v3.5.0-20210628
 * StackStorm 3.5.0 released
 * Switch OS to Ubuntu Bionic `18.04` LTS (#61)
