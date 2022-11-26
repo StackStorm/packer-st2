@@ -2,6 +2,9 @@
 
 ## In Development
 
+## v3.8.0-20221126
+* StackStorm 3.8.0 released
+
 ## v3.7.0-20220506
 * StackStorm 3.7.0 released
 
