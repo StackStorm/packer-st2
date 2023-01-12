@@ -1,0 +1,64 @@
+---
+name: packer-build
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+  push:
+    branches:
+      - gha
+  workflow_dispatch:
+
+concurrency:
+  group: packer-build
+  cancel-in-progress: false
+
+env:
+  VAGRANT_CLOUD_TOKEN: ${{ secrets.VAGRANT_CLOUD_TOKEN }}
+  BOX_ORG: ${{ github.repository_owner }}
+
+jobs:
+  packer:
+    runs-on: macos-12
+    timeout-minutes: 60
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # NOTE: Even though ST2_VERSION is the same in the Makefile it is arguably nice to see it here.
+      - name: Export ST2_VERSION and BOX_VERSION
+        run: |
+          ST2_VERSION="$(curl --silent 'https://api.github.com/repos/stackstorm/st2/releases/latest' | jq -r .tag_name | sed 's/^v//')"
+          if [[ -z "$ST2_VERSION" || "$ST2_VERSION" == "null" ]]; then
+            echo "Empty or null ST2_VERSION"
+            exit 1
+          else
+            echo "ST2_VERSION=${ST2_VERSION}" >> $GITHUB_ENV
+            echo "::notice::ST2_VERSION $ST2_VERSION"
+          fi
+          BOX_VERSION="$(date -u +%Y%m%d)-${{ github.run_number }}.${{ github.run_attempt }}"
+          if [[ -z "$BOX_VERSION" ]]; then
+            echo "Empty BOX_VERSION"
+            exit 1
+          else
+            echo "BOX_VERSION=${BOX_VERSION}" >> $GITHUB_ENV
+            echo "::notice::BOX_VERSION $BOX_VERSION"
+          fi
+
+      - name: Packer validate
+        run: make validate
+
+      - name: Packer build
+        run: make build
+
+      - name: Archive build box (for inspection)
+        uses: actions/upload-artifact@v3
+        with:
+          name: StackStorm Box v${{ env.ST2_VERSION }}-${{ env.BOX_VERSION }}
+          path: |
+            builds/st2_*.box
+          if-no-files-found: error
+          retention-days: 1

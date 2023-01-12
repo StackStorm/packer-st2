@@ -23,3 +23,6 @@ rm "${VBOX_ISO}"
 
 # Can remove the unneeded packages now
 apt-get -y remove build-essential dkms
+
+# Need vboxsf for the inspec tests
+apt-get -y install virtualbox-guest-dkms virtualbox-guest-utils

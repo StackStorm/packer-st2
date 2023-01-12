@@ -1,26 +1,26 @@
 {
-  "variables": {
-    "purpose": "Packer template for deploying a .box artifact to Vagrant CLoud",
-    "st2_version": "{{env `ST2_VERSION`}}",
-    "box_version": "{{env `BOX_VERSION`}}",
-    "cloud_token": "{{ env `VAGRANT_CLOUD_TOKEN` }}",
-    "vm_name": "st2"
-  },
   "builders": [
     {
-      "type": "file",
       "content": "Do nothing, Packer just requires at least one builder",
-      "target": "/dev/null"
+      "target": "/dev/null",
+      "type": "file"
     }
   ],
   "post-processors": [
     {
-      "type": "vagrant-cloud-standalone",
       "access_token": "{{user `cloud_token`}}",
+      "artifact": "builds/{{user `vm_name`}}_v{{user `st2_version`}}-{{user `box_version`}}.box",
       "box_tag": "stackstorm/st2",
       "provider": "virtualbox",
-      "version": "{{user `st2_version`}}-{{user `box_version`}}",
-      "artifact": "builds/{{user `vm_name`}}_v{{user `st2_version`}}-{{user `box_version`}}.box"
+      "type": "vagrant-cloud-standalone",
+      "version": "{{user `st2_version`}}-{{user `box_version`}}"
     }
-  ]
+  ],
+  "variables": {
+    "box_version": "{{env `BOX_VERSION`}}",
+    "cloud_token": "{{ env `VAGRANT_CLOUD_TOKEN` }}",
+    "purpose": "Packer template for deploying a .box artifact to Vagrant CLoud",
+    "st2_version": "{{env `ST2_VERSION`}}",
+    "vm_name": "st2"
+  }
 }

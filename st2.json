@@ -1,28 +1,107 @@
 {
-  "variables": {
-    "purpose": "Packer template for building StackStorm Vagrant '.box' & '.ova' Virtual Appliance",
-    "st2_version": "{{env `ST2_VERSION`}}",
-    "box_version": "{{env `BOX_VERSION`}}",
-    "st2_user": "st2admin",
-    "st2_password": "Ch@ngeMe",
-    "vm_name": "st2",
-    "vm_description": "Box with StackStorm (aka 'IFTTT for Ops') event-driven automation platform: auto-remediation, security responses, facilitated troubleshooting, complex deployments, ChatOps and more. \n* https://stackstorm.com/ \n* Documentation: https://docs.stackstorm.com/ \n* Community: https://stackstorm.com/community-signup \n* Forum: https://forum.stackstorm.com/"
-  },
+  "builders": [
+    {
+      "boot_command": [
+        "<enter><wait><f6><wait><esc><wait>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs>",
+        "/install/vmlinuz",
+        " initrd=/install/initrd.gz",
+        " priority=critical",
+        " locale=en_US",
+        " file=/media/preseed.cfg",
+        "<enter>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": 40960,
+      "export_opts": [
+        "--ovf10",
+        "--vsys",
+        "0",
+        "--version",
+        "{{user `st2_version`}}",
+        "--product",
+        "StackStorm",
+        "--producturl",
+        "https://stackstorm.com/",
+        "--description",
+        "{{user `vm_description`}}"
+      ],
+      "floppy_files": [
+        "./http/preseed.cfg"
+      ],
+      "format": "ova",
+      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+      "guest_os_type": "Ubuntu_64",
+      "headless": true,
+      "http_directory": "http",
+      "iso_checksum": "sha256:f5cbb8104348f0097a8e513b10173a07dbc6684595e331cb06f93f385d0aecf6",
+      "iso_urls": [
+        "https://cdimage.ubuntu.com/releases/18.04/release/ubuntu-18.04.6-server-amd64.iso"
+      ],
+      "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_timeout": "10000s",
+      "ssh_username": "vagrant",
+      "type": "virtualbox-iso",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "2048"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "2"
+        ]
+      ],
+      "virtualbox_version_file": ".vbox_version",
+      "vm_name": "{{user `vm_name`}}"
+    }
+  ],
+  "post-processors": [
+    {
+      "keep_input_artifact": true,
+      "output": "builds/{{user `vm_name`}}_v{{user `st2_version`}}-{{user `box_version`}}.box",
+      "type": "vagrant",
+      "vagrantfile_template": "Vagrantfile.template"
+    },
+    {
+      "inline": [
+        "mv output-virtualbox-iso/{{user `vm_name`}}.ova builds/{{user `vm_name`}}_v{{user `st2_version`}}-{{user `box_version`}}.ova",
+        "rm -rf output-virtualbox-iso/"
+      ],
+      "type": "shell-local"
+    }
+  ],
   "provisioners": [
     {
-      "type": "shell",
       "inline": [
         "sudo mkdir -p /opt/ova",
         "sudo chown -R vagrant:vagrant /opt/ova"
-      ]
+      ],
+      "type": "shell"
     },
     {
-      "type": "file",
+      "destination": "/opt/ova/",
       "source": "opt/",
-      "destination": "/opt/ova/"
+      "type": "file"
     },
     {
-      "type": "shell",
+      "environment_vars": [
+        "DEBIAN_FRONTEND=noninteractive"
+      ],
       "execute_command": "{{.Vars}} sudo -S -E bash -eu '{{.Path}}'",
       "scripts": [
         "scripts/pre_cleanup.sh",
@@ -30,108 +109,44 @@
         "scripts/welcome.sh",
         "scripts/virtualbox.sh",
         "scripts/st2-integration-tests.sh"
-      ]
+      ],
+      "type": "shell"
     },
     {
-      "type": "shell",
       "inline": [
         "echo '\\033[33mInstalling StackStorm v{{ user `st2_version` }} ...\\033[0m'",
         "curl --retry 3 -fsSL https://stackstorm.com/packages/install.sh | bash -seu -- --user={{ user `st2_user` }} --password={{ user `st2_password` }} --version={{ user `st2_version` }}"
-      ]
+      ],
+      "type": "shell"
     },
     {
-      "type": "shell",
       "execute_command": "{{.Vars}} sudo -S -E bash -eu '{{.Path}}'",
+      "expect_disconnect": true,
       "scripts": [
         "scripts/reboot.sh"
       ],
-      "expect_disconnect": true
+      "type": "shell"
     },
     {
-      "pause_before": "1m",
-      "type": "shell",
+      "environment_vars": [
+        "DEBIAN_FRONTEND=noninteractive"
+      ],
       "execute_command": "{{.Vars}} sudo -S -E bash -eu '{{.Path}}'",
+      "pause_before": "1m",
       "scripts": [
         "scripts/test.sh",
         "scripts/post_cleanup.sh"
-      ]
+      ],
+      "type": "shell"
     }
   ],
-  "builders": [
-    {
-      "type": "virtualbox-iso",
-      "format": "ova",
-      "boot_command": [
-        "<enter><wait><f6><esc><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
-        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
-        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
-        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
-        "/install/vmlinuz<wait>",
-        " auto<wait>",
-        " console-setup/ask_detect=false<wait>",
-        " console-setup/layoutcode=us<wait>",
-        " console-setup/modelcode=pc105<wait>",
-        " debconf/frontend=noninteractive<wait>",
-        " debian-installer=en_US.UTF-8<wait>",
-        " fb=false<wait>",
-        " initrd=/install/initrd.gz<wait>",
-        " kbd-chooser/method=us<wait>",
-        " keyboard-configuration/layout=USA<wait>",
-        " keyboard-configuration/variant=USA<wait>",
-        " locale=en_US.UTF-8<wait>",
-        " netcfg/get_domain=vm<wait>",
-        " netcfg/get_hostname=stackstorm<wait>",
-        " grub-installer/bootdev=/dev/sda<wait>",
-        " noapic<wait>",
-        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg",
-        " -- <wait>",
-        "<enter><wait>"
-      ],
-      "boot_wait": "10s",
-      "disk_size": 40960,
-      "guest_os_type": "Ubuntu_64",
-      "headless": true,
-      "http_directory": "http",
-      "iso_urls": [
-        "https://cdimage.ubuntu.com/releases/18.04/release/ubuntu-18.04.6-server-amd64.iso"
-      ],
-      "iso_checksum_type": "sha256",
-      "iso_checksum": "f5cbb8104348f0097a8e513b10173a07dbc6684595e331cb06f93f385d0aecf6",
-      "ssh_username": "vagrant",
-      "ssh_password": "vagrant",
-      "ssh_port": 22,
-      "ssh_wait_timeout": "10000s",
-      "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
-      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
-      "virtualbox_version_file": ".vbox_version",
-      "vm_name": "{{user `vm_name`}}",
-      "export_opts": [
-        "--ovf10",
-        "--vsys", "0",
-        "--version", "{{user `st2_version`}}",
-        "--product", "StackStorm",
-        "--producturl", "https://stackstorm.com/",
-        "--description", "{{user `vm_description`}}"
-      ],
-      "vboxmanage": [
-        [ "modifyvm", "{{.Name}}", "--memory", "2048" ],
-        [ "modifyvm", "{{.Name}}", "--cpus", "2" ]
-      ]
-    }
-  ],
-  "post-processors": [
-    {
-      "type": "vagrant",
-      "vagrantfile_template": "Vagrantfile.template",
-      "output": "builds/{{user `vm_name`}}_v{{user `st2_version`}}-{{user `box_version`}}.box",
-      "keep_input_artifact": true
-    },
-    {
-      "type": "shell-local",
-      "inline": [
-        "mv output-virtualbox-iso/{{user `vm_name`}}.ova builds/{{user `vm_name`}}_v{{user `st2_version`}}-{{user `box_version`}}.ova",
-        "rm -rf output-virtualbox-iso/"
-      ]
-    }
-  ]
+  "variables": {
+    "box_version": "{{env `BOX_VERSION`}}",
+    "purpose": "Packer template for building StackStorm Vagrant '.box' \u0026 '.ova' Virtual Appliance",
+    "st2_password": "Ch@ngeMe",
+    "st2_user": "st2admin",
+    "st2_version": "{{env `ST2_VERSION`}}",
+    "vm_description": "Box with StackStorm (aka 'IFTTT for Ops') event-driven automation platform: auto-remediation, security responses, facilitated troubleshooting, complex deployments, ChatOps and more. \n* https://stackstorm.com/ \n* Documentation: https://docs.stackstorm.com/ \n* Community: https://stackstorm.com/community-signup \n* Forum: https://forum.stackstorm.com/",
+    "vm_name": "st2"
+  }
 }

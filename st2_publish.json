@@ -1,0 +1,31 @@
+{
+  "variables": {
+    "cloud_token": "{{ env `VAGRANT_CLOUD_TOKEN` }}",
+    "st2_version": "{{ env `ST2_VERSION` }}",
+    "box_version": "{{ env `BOX_VERSION` }}",
+    "org_name": "{{ env `BOX_ORG` }}",
+    "vm_name": "st2"
+  },
+  "builders": [
+    {
+      "type": "null",
+      "communicator": "none"
+    }
+  ],
+  "post-processors": [
+    [
+      {
+        "type": "artifice",
+        "files": [
+          "builds/{{user `vm_name`}}_v{{user `st2_version`}}-{{user `box_version`}}.box"
+        ]
+      },
+      {
+        "type": "vagrant-cloud",
+        "box_tag": "{{user `org_name`}}/{{user `vm_name`}}",
+        "access_token": "{{user `cloud_token`}}",
+        "version": "{{user `box_version`}}"
+      }
+    ]
+  ]
+}
