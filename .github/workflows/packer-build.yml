@@ -23,7 +23,15 @@ env:
 jobs:
   packer:
     runs-on: macos-12
-    timeout-minutes: 60
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix:
+        st2_version:
+          - "3.8.0"
+          - "3.7.0"
+          - "3.6.0"
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -31,14 +39,17 @@ jobs:
       # NOTE: Even though ST2_VERSION is the same in the Makefile it is arguably nice to see it here.
       - name: Export ST2_VERSION and BOX_VERSION
         run: |
-          ST2_VERSION="$(curl --silent 'https://api.github.com/repos/stackstorm/st2/releases/latest' | jq -r .tag_name | sed 's/^v//')"
-          if [[ -z "$ST2_VERSION" || "$ST2_VERSION" == "null" ]]; then
-            echo "Empty or null ST2_VERSION"
-            exit 1
-          else
-            echo "ST2_VERSION=${ST2_VERSION}" >> $GITHUB_ENV
-            echo "::notice::ST2_VERSION $ST2_VERSION"
-          fi
+          # ST2_VERSION="$(curl --silent 'https://api.github.com/repos/stackstorm/st2/releases/latest' | jq -r .tag_name | sed 's/^v//')"
+          # if [[ -z "$ST2_VERSION" || "$ST2_VERSION" == "null" ]]; then
+          #   echo "Empty or null ST2_VERSION"
+          #   exit 1
+          # else
+          #   echo "ST2_VERSION=${ST2_VERSION}" >> $GITHUB_ENV
+          #   echo "::notice::ST2_VERSION $ST2_VERSION"
+          # fi
+          ST2_VERSION="${{ matrix.st2_version }}"
+          echo "ST2_VERSION=${ST2_VERSION}" >> $GITHUB_ENV
+          echo "::notice::ST2_VERSION $ST2_VERSION"
           BOX_VERSION="$(date -u +%Y%m%d)-${{ github.run_number }}.${{ github.run_attempt }}"
           if [[ -z "$BOX_VERSION" ]]; then
             echo "Empty BOX_VERSION"
