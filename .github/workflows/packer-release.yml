@@ -46,7 +46,7 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           automatic_release_tag: ${{ github.ref_name }}
-          prerelease: true
+          prerelease: false
           files: |
             builds/st2_${{ github.ref_name }}.box
 
