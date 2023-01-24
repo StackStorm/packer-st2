@@ -19,6 +19,7 @@ concurrency:
 env:
   VAGRANT_CLOUD_TOKEN: ${{ secrets.VAGRANT_CLOUD_TOKEN }}
   BOX_ORG: ${{ github.repository_owner }}
+  BOX_RETENTION_DAYS: 1
 
 jobs:
   packer:
@@ -61,4 +62,4 @@ jobs:
           path: |
             builds/st2_*.box
           if-no-files-found: error
-          retention-days: 1
+          retention-days: ${{ env.BOX_RETENTION_DAYS }}
