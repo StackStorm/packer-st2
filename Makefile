@@ -2,7 +2,6 @@ PACKER ?= ~/bin/packer
 PACKER_VERSION := 1.8.4
 VAGRANT ?= ~/bin/vagrant
 VAGRANT_VERSION := 2.3.4
-# VAGRANT_CLOUD_STANDALONE_VERSION := 0.1.3
 GIT ?= git
 CURL ?= curl
 SHELL := /bin/bash
@@ -92,8 +91,6 @@ inspec-lint: $(INSPEC)
 		done \
 	}
 
-#	$(PACKER) validate st2_deploy.json
-
 build: $(PACKER) validate
 	$(PACKER) build \
 		-var 'st2_version=$(ST2_VERSION)' \
@@ -115,25 +112,6 @@ publish-manually: $(VAGRANT)
 		--version-description "StackStorm v$(ST2_VERSION)-$(BOX_VERSION)" \
 		--checksum-type sha256 --checksum "$(shell sha256sum builds/st2_v$(ST2_VERSION)-$(BOX_VERSION).box | awk '{print $$1}')" \
 		--force --release $(BOX_ORG)/st2 $(ST2_VERSION)-$(BOX_VERSION) virtualbox builds/st2_v$(ST2_VERSION)-$(BOX_VERSION).box
-
-# 'Vagrant-cloud-standalone' is a forked Packer post-processor plugin to deploy .box artifact to Vagrant Cloud
-# install-vagrant-cloud-standalone: tmp/vagrant-cloud-standalone_$(VAGRANT_CLOUD_STANDALONE_VERSION).zip
-# 	mkdir -p ~/bin
-# 	unzip -o -d ~/bin $<
-# 	@echo Vagrant-cloud-standalone plugin $(VAGRANT_CLOUD_STANDALONE_VERSION) was successfully installed!
-# tmp/vagrant-cloud-standalone_$(VAGRANT_CLOUD_STANDALONE_VERSION).zip:
-# 	curl -fsSLo $@ 'https://github.com/armab/packer-post-processor-vagrant-cloud-standalone/releases/download/v$(VAGRANT_CLOUD_STANDALONE_VERSION)/packer-post-processor-vagrant-cloud-standalone_$(UNAME)_amd64.zip'
-# 	@echo Downloaded new Vagrant-cloud-standalone version: $(VAGRANT_CLOUD_STANDALONE_VERSION)!
-# # Install 'packer-post-processor-vagrant-cloud-standalone' only if it doesn't exist
-# ~/bin/packer-post-processor-vagrant-cloud-standalone:
-# 	@$(MAKE) install-vagrant-cloud-standalone
-
-# Deploy the .box, produced during the `build` to Vagrant Cloud
-# deploy: $(PACKER) ~/bin/packer-post-processor-vagrant-cloud-standalone
-# 	$(PACKER) build \
-# 	  -var 'st2_version=$(ST2_VERSION)' \
-# 	  -var 'box_version=$(BOX_VERSION)' \
-# 	  st2_deploy.json
 
 clean:
 	rm -rf tmp/*
