@@ -57,11 +57,6 @@ tmp/packer_$(PACKER_VERSION).zip:
 
 validate: $(PACKER)
 	$(PACKER) validate st2.json
-	$(PACKER) validate \
-		-var 'st2_version=$(ST2_VERSION)' \
-		-var 'box_version=$(BOX_VERSION)' \
-		-var 'box_org=$(BOX_ORG)' \
-		st2_publish.json
 
 INSPEC = $(shell command -v inspec 2>/dev/null)
 install-inspec: # https://docs.chef.io/inspec/install
