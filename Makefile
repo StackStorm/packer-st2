@@ -98,14 +98,7 @@ build: $(PACKER) validate
 		-var 'box_org=$(BOX_ORG)' \
 		st2.json
 
-publish: $(PACKER) validate
-	$(PACKER) build \
-		-var 'st2_version=$(ST2_VERSION)' \
-		-var 'box_version=$(BOX_VERSION)' \
-		-var 'box_org=$(BOX_ORG)' \
-		st2_publish.json
-
-publish-manually: $(VAGRANT)
+publish: $(VAGRANT)
 	vagrant cloud publish \
 		--description "Box with StackStorm (aka 'IFTTT for Ops') event-driven automation platform: auto-remediation, security responses, facilitated troubleshooting, complex deployments, ChatOps and more. \n* https://stackstorm.com/ \n* Documentation: https://docs.stackstorm.com/ \n* Community: https://stackstorm.com/community-signup \n* Forum: https://forum.stackstorm.com/" \
 		--short-description "StackStorm v$(ST2_VERSION)-$(BOX_VERSION)" \

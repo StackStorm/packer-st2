@@ -47,11 +47,9 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           automatic_release_tag: ${{ github.ref_name }}
           prerelease: true
-          title: StackStorm Box ${{ github.ref_name }}
           files: |
             builds/st2_${{ github.ref_name }}.box
 
-      # NOTE: I could not get https://github.com/armab/packer-post-processor-vagrant-cloud-standalone#description to work
       - name: Publish on Vagrant Cloud
         run: |
           echo "::group::Install coreutils for sha256sum"
@@ -59,5 +57,5 @@ jobs:
           echo "::endgroup::"
 
           echo "::group::Publish on Vagrant Cloud"
-          make publish-manually
+          make publish
           echo "::endgroup::"
