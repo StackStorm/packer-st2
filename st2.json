@@ -1,4 +1,13 @@
 {
+  "variables": {
+    "box_version": "{{env `BOX_VERSION`}}",
+    "purpose": "Packer template for building StackStorm Vagrant '.box' \u0026 '.ova' Virtual Appliance",
+    "st2_password": "Ch@ngeMe",
+    "st2_user": "st2admin",
+    "st2_version": "{{env `ST2_VERSION`}}",
+    "vm_description": "Box with StackStorm (aka 'IFTTT for Ops') event-driven automation platform: auto-remediation, security responses, facilitated troubleshooting, complex deployments, ChatOps and more. \n* https://stackstorm.com/ \n* Documentation: https://docs.stackstorm.com/ \n* Community: https://stackstorm.com/community-signup \n* Forum: https://forum.stackstorm.com/",
+    "vm_name": "st2"
+  },
   "builders": [
     {
       "boot_command": [
@@ -139,14 +148,5 @@
       ],
       "type": "shell"
     }
-  ],
-  "variables": {
-    "box_version": "{{env `BOX_VERSION`}}",
-    "purpose": "Packer template for building StackStorm Vagrant '.box' \u0026 '.ova' Virtual Appliance",
-    "st2_password": "Ch@ngeMe",
-    "st2_user": "st2admin",
-    "st2_version": "{{env `ST2_VERSION`}}",
-    "vm_description": "Box with StackStorm (aka 'IFTTT for Ops') event-driven automation platform: auto-remediation, security responses, facilitated troubleshooting, complex deployments, ChatOps and more. \n* https://stackstorm.com/ \n* Documentation: https://docs.stackstorm.com/ \n* Community: https://stackstorm.com/community-signup \n* Forum: https://forum.stackstorm.com/",
-    "vm_name": "st2"
-  }
+  ]
 }
