@@ -95,7 +95,7 @@ build: $(PACKER) validate
 
 publish: $(VAGRANT)
 	vagrant cloud publish \
-		--description "Box with StackStorm (aka 'IFTTT for Ops') event-driven automation platform: auto-remediation, security responses, facilitated troubleshooting, complex deployments, ChatOps and more. \n* https://stackstorm.com/ \n* Documentation: https://docs.stackstorm.com/ \n* Community: https://stackstorm.com/community-signup \n* Forum: https://forum.stackstorm.com/" \
+		--description "Box with StackStorm (aka 'IFTTT for Ops') event-driven automation platform: auto-remediation, security responses, facilitated troubleshooting, complex deployments, ChatOps and more. \n* https://stackstorm.com/ \n* Documentation: https://docs.stackstorm.com/ \n* Community: https://stackstorm.com/community-signup \n* Discussions: https://github.com/StackStorm/st2/discussions" \
 		--short-description "StackStorm v$(ST2_VERSION)-$(BOX_VERSION)" \
 		--version-description "StackStorm v$(ST2_VERSION)-$(BOX_VERSION)" \
 		--checksum-type sha256 --checksum "$(shell sha256sum builds/st2_v$(ST2_VERSION)-$(BOX_VERSION).box | awk '{print $$1}')" \

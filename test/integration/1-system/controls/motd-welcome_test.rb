@@ -23,6 +23,6 @@ control 'motd-welcome-msg' do
     it { should exist }
     its('stdout') { should include 'Documentation: https://docs.stackstorm.com/' }
     its('stdout') { should include 'Community: https://stackstorm.com/community-signup' }
-    its('stdout') { should include 'Forum: https://forum.stackstorm.com/' }
+    its('stdout') { should include 'Discussions: https://github.com/StackStorm/st2/discussions' }
   end
 end

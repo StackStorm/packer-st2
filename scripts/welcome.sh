@@ -22,7 +22,7 @@ cat << 'EOF' > /etc/update-motd.d/10-help-text
 printf "\n"
 printf " * Documentation: https://docs.stackstorm.com/\n"
 printf " * Community: https://stackstorm.com/community-signup\n"
-printf " * Forum: https://forum.stackstorm.com/\n"
+printf " * Discussions: https://github.com/StackStorm/st2/discussions\n"
 EOF
 
 chmod +x /etc/update-motd.d/*
