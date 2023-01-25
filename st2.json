@@ -28,6 +28,10 @@
         " netcfg/get_domain=vm",
         " netcfg/get_hostname=stackstorm",
         " file=/media/preseed.cfg",
+        " console-setup/ask_detect=false",
+        " console-setup/layoutcode=us",
+        " console-setup/modelcode=pc105",
+        " debconf/frontend=noninteractive",
         "<enter>"
       ],
       "boot_wait": "10s",
