@@ -24,7 +24,9 @@
         "/install/vmlinuz",
         " initrd=/install/initrd.gz",
         " priority=critical",
-        " locale=en_US",
+        " locale=en_US.UTF-8",
+        " netcfg/get_domain=vm",
+        " netcfg/get_hostname=stackstorm",
         " file=/media/preseed.cfg",
         "<enter>"
       ],
