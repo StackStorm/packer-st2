@@ -48,7 +48,7 @@ jobs:
           automatic_release_tag: ${{ github.ref_name }}
           prerelease: false
           files: |
-            builds/st2_${{ github.ref_name }}.box
+            builds/st2_${{ github.ref_name }}.ova
 
       - name: Publish on Vagrant Cloud
         run: |
