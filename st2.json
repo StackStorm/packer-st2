@@ -32,6 +32,9 @@
         " console-setup/layoutcode=us",
         " console-setup/modelcode=pc105",
         " debconf/frontend=noninteractive",
+        " kbd-chooser/method=us",
+        " keyboard-configuration/layout=USA",
+        " keyboard-configuration/variant=USA",
         "<enter>"
       ],
       "boot_wait": "10s",
