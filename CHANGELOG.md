@@ -1,6 +1,7 @@
 # Changelog
 
 ## In Development
+* Build Vagrant boxes with GitHub (#63)
 
 ## v3.8.0-20221126
 * StackStorm 3.8.0 released
