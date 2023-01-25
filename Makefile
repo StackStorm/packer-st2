@@ -13,7 +13,7 @@ BOX_VERSION ?= $(shell date -u +%Y%m%d)
 BOX_ORG ?= stackstorm
 
 
-.PHONY: install-inspec inspec-lint install-packer validate build publish publish-manually clean install-vagrant
+.PHONY: install-inspec inspec-lint install-packer validate build publish clean install-vagrant
 
 VAGRANT = $(shell command -v vagrant 2>/dev/null)
 install-vagrant:
