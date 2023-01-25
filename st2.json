@@ -32,16 +32,11 @@
       "disk_size": 40960,
       "export_opts": [
         "--ovf10",
-        "--vsys",
-        "0",
-        "--version",
-        "{{user `st2_version`}}",
-        "--product",
-        "StackStorm",
-        "--producturl",
-        "https://stackstorm.com/",
-        "--description",
-        "{{user `vm_description`}}"
+        "--vsys", "0",
+        "--version", "{{user `st2_version`}}",
+        "--product", "StackStorm",
+        "--producturl", "https://stackstorm.com/",
+        "--description", "{{user `vm_description`}}"
       ],
       "floppy_files": [
         "./http/preseed.cfg"
@@ -62,18 +57,8 @@
       "ssh_username": "vagrant",
       "type": "virtualbox-iso",
       "vboxmanage": [
-        [
-          "modifyvm",
-          "{{.Name}}",
-          "--memory",
-          "2048"
-        ],
-        [
-          "modifyvm",
-          "{{.Name}}",
-          "--cpus",
-          "2"
-        ]
+        [ "modifyvm", "{{.Name}}", "--memory", "2048" ],
+        [ "modifyvm", "{{.Name}}", "--cpus", "2" ]
       ],
       "virtualbox_version_file": ".vbox_version",
       "vm_name": "{{user `vm_name`}}"
