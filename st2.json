@@ -1,12 +1,12 @@
 {
   "variables": {
-    "box_version": "{{env `BOX_VERSION`}}",
     "purpose": "Packer template for building StackStorm Vagrant '.box' \u0026 '.ova' Virtual Appliance",
-    "st2_password": "Ch@ngeMe",
-    "st2_user": "st2admin",
     "st2_version": "{{env `ST2_VERSION`}}",
-    "vm_description": "Box with StackStorm (aka 'IFTTT for Ops') event-driven automation platform: auto-remediation, security responses, facilitated troubleshooting, complex deployments, ChatOps and more. \n* https://stackstorm.com/ \n* Documentation: https://docs.stackstorm.com/ \n* Community: https://stackstorm.com/community-signup \n* Discussions: https://github.com/StackStorm/st2/discussions",
-    "vm_name": "st2"
+    "box_version": "{{env `BOX_VERSION`}}",
+    "st2_user": "st2admin",
+    "st2_password": "Ch@ngeMe",
+    "vm_name": "st2",
+    "vm_description": "Box with StackStorm (aka 'IFTTT for Ops') event-driven automation platform: auto-remediation, security responses, facilitated troubleshooting, complex deployments, ChatOps and more. \n* https://stackstorm.com/ \n* Documentation: https://docs.stackstorm.com/ \n* Community: https://stackstorm.com/community-signup \n* Discussions: https://github.com/StackStorm/st2/discussions"
   },
   "builders": [
     {
@@ -73,35 +73,21 @@
       "vm_name": "{{user `vm_name`}}"
     }
   ],
-  "post-processors": [
-    {
-      "keep_input_artifact": true,
-      "output": "builds/{{user `vm_name`}}_v{{user `st2_version`}}-{{user `box_version`}}.box",
-      "type": "vagrant",
-      "vagrantfile_template": "Vagrantfile.template"
-    },
-    {
-      "inline": [
-        "mv output-virtualbox-iso/{{user `vm_name`}}.ova builds/{{user `vm_name`}}_v{{user `st2_version`}}-{{user `box_version`}}.ova",
-        "rm -rf output-virtualbox-iso/"
-      ],
-      "type": "shell-local"
-    }
-  ],
   "provisioners": [
     {
+      "type": "shell",
       "inline": [
         "sudo mkdir -p /opt/ova",
         "sudo chown -R vagrant:vagrant /opt/ova"
-      ],
-      "type": "shell"
+      ]
     },
     {
-      "destination": "/opt/ova/",
+      "type": "file",
       "source": "opt/",
-      "type": "file"
+      "destination": "/opt/ova/"
     },
     {
+      "type": "shell",
       "environment_vars": [
         "DEBIAN_FRONTEND=noninteractive"
       ],
@@ -112,35 +98,49 @@
         "scripts/welcome.sh",
         "scripts/virtualbox.sh",
         "scripts/st2-integration-tests.sh"
-      ],
-      "type": "shell"
+      ]
     },
     {
+      "type": "shell",
       "inline": [
         "echo '\\033[33mInstalling StackStorm v{{ user `st2_version` }} ...\\033[0m'",
         "curl --retry 3 -fsSL https://stackstorm.com/packages/install.sh | bash -seu -- --user={{ user `st2_user` }} --password={{ user `st2_password` }} --version={{ user `st2_version` }}"
-      ],
-      "type": "shell"
+      ]
     },
     {
+      "type": "shell",
       "execute_command": "{{.Vars}} sudo -S -E bash -eu '{{.Path}}'",
-      "expect_disconnect": true,
       "scripts": [
         "scripts/reboot.sh"
       ],
-      "type": "shell"
+      "expect_disconnect": true
     },
     {
       "environment_vars": [
         "DEBIAN_FRONTEND=noninteractive"
       ],
-      "execute_command": "{{.Vars}} sudo -S -E bash -eu '{{.Path}}'",
       "pause_before": "1m",
+      "type": "shell",
+      "execute_command": "{{.Vars}} sudo -S -E bash -eu '{{.Path}}'",
       "scripts": [
         "scripts/test.sh",
         "scripts/post_cleanup.sh"
-      ],
-      "type": "shell"
+      ]
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "vagrant",
+      "vagrantfile_template": "Vagrantfile.template",
+      "output": "builds/{{user `vm_name`}}_v{{user `st2_version`}}-{{user `box_version`}}.box",
+      "keep_input_artifact": true
+    },
+    {
+      "type": "shell-local",
+      "inline": [
+        "mv output-virtualbox-iso/{{user `vm_name`}}.ova builds/{{user `vm_name`}}_v{{user `st2_version`}}-{{user `box_version`}}.ova",
+        "rm -rf output-virtualbox-iso/"
+      ]
     }
   ]
 }
