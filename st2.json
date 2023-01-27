@@ -8,71 +8,6 @@
     "vm_name": "st2",
     "vm_description": "Box with StackStorm (aka 'IFTTT for Ops') event-driven automation platform: auto-remediation, security responses, facilitated troubleshooting, complex deployments, ChatOps and more. \n* https://stackstorm.com/ \n* Documentation: https://docs.stackstorm.com/ \n* Community: https://stackstorm.com/community-signup \n* Discussions: https://github.com/StackStorm/st2/discussions"
   },
-  "builders": [
-    {
-      "boot_command": [
-        "<enter><wait><f6><wait><esc><wait>",
-        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
-        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
-        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
-        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
-        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
-        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
-        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
-        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
-        "<bs><bs><bs>",
-        "/install/vmlinuz",
-        " initrd=/install/initrd.gz",
-        " priority=critical",
-        " locale=en_US.UTF-8",
-        " netcfg/get_domain=vm",
-        " netcfg/get_hostname=stackstorm",
-        " file=/media/preseed.cfg",
-        " console-setup/ask_detect=false",
-        " console-setup/layoutcode=us",
-        " console-setup/modelcode=pc105",
-        " debconf/frontend=noninteractive",
-        " kbd-chooser/method=us",
-        " keyboard-configuration/layout=USA",
-        " keyboard-configuration/variant=USA",
-        "<enter>"
-      ],
-      "boot_wait": "10s",
-      "disk_size": 40960,
-      "export_opts": [
-        "--ovf10",
-        "--vsys", "0",
-        "--version", "{{user `st2_version`}}",
-        "--product", "StackStorm",
-        "--producturl", "https://stackstorm.com/",
-        "--description", "{{user `vm_description`}}"
-      ],
-      "floppy_files": [
-        "./http/preseed.cfg"
-      ],
-      "format": "ova",
-      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
-      "guest_os_type": "Ubuntu_64",
-      "headless": true,
-      "http_directory": "http",
-      "iso_checksum": "sha256:f5cbb8104348f0097a8e513b10173a07dbc6684595e331cb06f93f385d0aecf6",
-      "iso_urls": [
-        "https://cdimage.ubuntu.com/releases/18.04/release/ubuntu-18.04.6-server-amd64.iso"
-      ],
-      "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
-      "ssh_password": "vagrant",
-      "ssh_port": 22,
-      "ssh_timeout": "10000s",
-      "ssh_username": "vagrant",
-      "type": "virtualbox-iso",
-      "vboxmanage": [
-        [ "modifyvm", "{{.Name}}", "--memory", "2048" ],
-        [ "modifyvm", "{{.Name}}", "--cpus", "2" ]
-      ],
-      "virtualbox_version_file": ".vbox_version",
-      "vm_name": "{{user `vm_name`}}"
-    }
-  ],
   "provisioners": [
     {
       "type": "shell",
@@ -119,6 +54,71 @@
       "scripts": [
         "scripts/test.sh",
         "scripts/post_cleanup.sh"
+      ]
+    }
+  ],
+  "builders": [
+    {
+      "type": "virtualbox-iso",
+      "format": "ova",
+      "boot_command": [
+        "<enter><wait><f6><wait><esc><wait>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs>",
+        "/install/vmlinuz",
+        " initrd=/install/initrd.gz",
+        " priority=critical",
+        " locale=en_US.UTF-8",
+        " netcfg/get_domain=vm",
+        " netcfg/get_hostname=stackstorm",
+        " file=/media/preseed.cfg",
+        " console-setup/ask_detect=false",
+        " console-setup/layoutcode=us",
+        " console-setup/modelcode=pc105",
+        " debconf/frontend=noninteractive",
+        " kbd-chooser/method=us",
+        " keyboard-configuration/layout=USA",
+        " keyboard-configuration/variant=USA",
+        "<enter>"
+      ],
+      "floppy_files": [
+        "./http/preseed.cfg"
+      ],
+      "boot_wait": "10s",
+      "disk_size": 40960,
+      "guest_os_type": "Ubuntu_64",
+      "headless": true,
+      "http_directory": "http",
+      "iso_urls": [
+        "https://cdimage.ubuntu.com/releases/18.04/release/ubuntu-18.04.6-server-amd64.iso"
+      ],
+      "iso_checksum": "sha256:f5cbb8104348f0097a8e513b10173a07dbc6684595e331cb06f93f385d0aecf6",
+      "ssh_username": "vagrant",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_timeout": "10000s",
+      "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
+      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+      "virtualbox_version_file": ".vbox_version",
+      "vm_name": "{{user `vm_name`}}",
+      "export_opts": [
+        "--ovf10",
+        "--vsys", "0",
+        "--version", "{{user `st2_version`}}",
+        "--product", "StackStorm",
+        "--producturl", "https://stackstorm.com/",
+        "--description", "{{user `vm_description`}}"
+      ],
+      "vboxmanage": [
+        [ "modifyvm", "{{.Name}}", "--memory", "2048" ],
+        [ "modifyvm", "{{.Name}}", "--cpus", "2" ]
       ]
     }
   ],
