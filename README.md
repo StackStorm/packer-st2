@@ -1,5 +1,6 @@
 # StackStorm Vagrant & OVA
-[![CircleCI](https://circleci.com/gh/StackStorm/packer-st2.svg?style=shield)](https://circleci.com/gh/StackStorm/packer-st2)
+
+[![Latest Build](https://github.com/StackStorm/packer-st2/actions/workflows/packer-build.yml/badge.svg?branch=master)](https://github.com/StackStorm/packer-st2/actions/workflows/packer-build.yml)
 [![Latest Release](https://img.shields.io/github/release/StackStorm/packer-st2/all.svg)](https://github.com/StackStorm/packer-st2/releases)
 [![Download from Vagrant Cloud](https://img.shields.io/badge/Vagrant-cloud%20%E2%86%92-1563ff.svg)](https://app.vagrantup.com/stackstorm/boxes/st2/)
 
