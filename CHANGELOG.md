@@ -1,6 +1,8 @@
 # Changelog
 
 ## In Development
+
+## v3.8.0-20230127
 * Build Vagrant boxes with GitHub (#63)
 
 ## v3.8.0-20221126
