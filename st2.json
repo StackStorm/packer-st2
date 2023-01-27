@@ -88,9 +88,6 @@
     },
     {
       "type": "shell",
-      "environment_vars": [
-        "DEBIAN_FRONTEND=noninteractive"
-      ],
       "execute_command": "{{.Vars}} sudo -S -E bash -eu '{{.Path}}'",
       "scripts": [
         "scripts/pre_cleanup.sh",
@@ -116,9 +113,6 @@
       "expect_disconnect": true
     },
     {
-      "environment_vars": [
-        "DEBIAN_FRONTEND=noninteractive"
-      ],
       "pause_before": "1m",
       "type": "shell",
       "execute_command": "{{.Vars}} sudo -S -E bash -eu '{{.Path}}'",
