@@ -24,6 +24,9 @@
     {
       "type": "shell",
       "execute_command": "{{.Vars}} sudo -S -E bash -eu '{{.Path}}'",
+      "environment_vars": [
+        "DEBIAN_FRONTEND=noninteractive"
+      ],
       "scripts": [
         "scripts/pre_cleanup.sh",
         "scripts/vagrant.sh",
@@ -51,6 +54,9 @@
       "pause_before": "1m",
       "type": "shell",
       "execute_command": "{{.Vars}} sudo -S -E bash -eu '{{.Path}}'",
+      "environment_vars": [
+        "DEBIAN_FRONTEND=noninteractive"
+      ],
       "scripts": [
         "scripts/test.sh",
         "scripts/post_cleanup.sh"
