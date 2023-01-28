@@ -9,7 +9,7 @@ on:
       - synchronize
   push:
     branches:
-      - gha
+      - master
   workflow_dispatch:
 
 concurrency:
