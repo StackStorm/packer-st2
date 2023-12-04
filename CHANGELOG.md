@@ -1,6 +1,7 @@
 # Changelog
 
 ## In Development
+* Update IP address to be `192.168.56.56` to support WSL and Windows latest VirtualBox client.
 
 ## v3.8.0-20230127
 * Build Vagrant boxes with GitHub (#63)
