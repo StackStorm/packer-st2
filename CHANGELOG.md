@@ -1,6 +1,7 @@
 # Changelog
 
 ## In Development
+* Update IP address to be `192.168.56.56` to support WSL and Windows latest VirtualBox client.
 
 ## v3.8.1-20231213
 * StackStorm 3.8.1 released
