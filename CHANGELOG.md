@@ -2,6 +2,9 @@
 
 ## In Development
 
+## v3.8.1-20231213
+* StackStorm 3.8.1 released
+
 ## v3.8.0-20230127
 * Build Vagrant boxes with GitHub (#63)
 
